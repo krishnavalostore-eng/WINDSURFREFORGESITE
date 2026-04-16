@@ -6,7 +6,17 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+let supabase: any = null;
+try {
+  if (supabaseUrl && supabaseAnonKey) {
+    supabase = createClient(supabaseUrl, supabaseAnonKey);
+  } else {
+    console.warn("Supabase credentials missing");
+  }
+} catch (error) {
+  console.error("Supabase initialization error:", error);
+}
 
 export const RegistrationPage = () => {
   const navigate = useNavigate();
@@ -33,19 +43,24 @@ export const RegistrationPage = () => {
     fetchCount();
 
     // Supabase Realtime subscription to update count
-    const channel = supabase
-      .channel('users_count')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'users' },
-        () => {
-          fetchCount();
-        }
-      )
-      .subscribe();
+    let channel: any;
+    if (supabase) {
+      channel = supabase
+        .channel('users_count')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'users' },
+          () => {
+            fetchCount();
+          }
+        )
+        .subscribe();
+    }
 
     return () => {
-      supabase.removeChannel(channel);
+      if (supabase && channel) {
+        supabase.removeChannel(channel);
+      }
     };
   }, []);
 
