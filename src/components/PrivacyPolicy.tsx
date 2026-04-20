@@ -29,7 +29,7 @@ export const PrivacyPolicy = () => {
             Privacy <span className="text-system-neon">Policy</span>
           </h1>
           <div className="text-system-neon font-mono text-sm tracking-[0.3em] uppercase animate-pulse">
-            Last Updated: March 2026 // Protocol Active
+            Last Updated: April 2026 // Protocol Active
           </div>
         </div>
 
@@ -164,8 +164,14 @@ export const PrivacyPolicy = () => {
             <ul className="list-disc pl-6 space-y-2 text-lg text-slate-300 marker:text-system-neon">
               <li><strong>Review:</strong> Request and review the totality of the data we have collected regarding your profile.</li>
               <li><strong>Rectify:</strong> Correct any inaccurate or outdated physiological information (achieved by recalibrating your profile within the app).</li>
-              <li><strong>Eradicate:</strong> You may submit a formal request for total account deletion. Should you execute this protocol, your Hunter level, accumulated XP, virtual currency, and all associated health telemetry will be permanently, irreversibly wiped and purged from our server infrastructure.</li>
+              <li><strong>Eradicate:</strong> You may submit a formal request for total account deletion via our <a href="https://forms.gle/yFzbKDJ7wcwtaUgz9" target="_blank" rel="noopener noreferrer" className="text-system-neon hover:text-white transition-colors underline">Account Deletion Form</a>. Should you execute this protocol, your Hunter level, accumulated XP, virtual currency, and all associated health telemetry will be permanently, irreversibly wiped and purged from our server infrastructure.</li>
             </ul>
+            <p className="text-lg leading-relaxed pt-4">
+              For any data-related inquiries, contact us at: <a href="mailto:reforgesystem@gmail.com" className="text-system-neon hover:text-white transition-colors underline">reforgesystem@gmail.com</a>
+            </p>
+            <p className="text-lg leading-relaxed">
+              <strong className="text-white">Registered Operations:</strong> Maharashtra, India.
+            </p>
           </section>
 
           <section className="space-y-4">

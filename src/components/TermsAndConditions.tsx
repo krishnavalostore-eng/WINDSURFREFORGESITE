@@ -29,7 +29,7 @@ export const TermsAndConditions = () => {
             Terms & <span className="text-red-500">Conditions</span>
           </h1>
           <div className="text-red-500 font-mono text-sm tracking-[0.3em] uppercase animate-pulse">
-            Last Updated: March 2026 // Legal Framework Active
+            Last Updated: April 2026 // Legal Framework Active
           </div>
         </div>
 
@@ -174,7 +174,10 @@ export const TermsAndConditions = () => {
               10. Contact Us
             </h2>
             <p className="text-lg leading-relaxed">
-              If you require clarification regarding these terms, or if you wish to formally appeal a ban because you believe the ForgeGuard Anti-Cheat system generated a false positive, please direct your communications to our support matrix at: <a href="mailto:support@reforge.app" className="text-red-500 hover:text-white transition-colors underline">support@reforge.app</a>.
+              If you require clarification regarding these terms, or if you wish to formally appeal a ban because you believe the ForgeGuard Anti-Cheat system generated a false positive, please direct your communications to our support matrix at: <a href="mailto:reforgesystem@gmail.com" className="text-red-500 hover:text-white transition-colors underline">reforgesystem@gmail.com</a>.
+            </p>
+            <p className="text-lg leading-relaxed">
+              <strong className="text-white">Registered Operations:</strong> Maharashtra, India.
             </p>
           </section>
 
