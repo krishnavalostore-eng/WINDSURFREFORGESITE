@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, X, Activity, Shield, Zap, User, CheckCircle2, Crosshair, Dumbbell, Brain, ChevronDown, Lock, LogOut } from 'lucide-react';
+import { Play, X, Activity, Shield, Zap, User, CheckCircle2, Crosshair, Dumbbell, Brain, ChevronDown, Lock, LogOut, Download } from 'lucide-react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { AdminPanel } from './components/AdminPanel';
 import { Marquee } from './components/Marquee';
 import { FAQ } from './components/FAQ';
-import { RegistrationPage } from './components/RegistrationPage';
-import { HunterRegistered } from './components/HunterRegistered';
 import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { AnimatePresence, motion } from 'motion/react';
+
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.reforge.app&pcampaignid=web_share';
 
 // --- Components ---
 
@@ -228,14 +228,12 @@ const MainApp = () => {
   const [introLoaded, setIntroLoaded] = useState(false);
   const [loopLoaded, setLoopLoaded] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
-  const [hunterName, setHunterName] = useState<string | null>(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authenticatedAdminPass, setAuthenticatedAdminPass] = useState('');
   const [adminId, setAdminId] = useState('');
   const [adminPass, setAdminPass] = useState('');
   const [adminError, setAdminError] = useState('');
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -250,12 +248,9 @@ const MainApp = () => {
     }
   }, [location]);
 
-  useEffect(() => {
-    const storedName = localStorage.getItem('hunterName');
-    if (storedName) {
-      setHunterName(storedName);
-    }
-  }, []);
+  const handleDownload = () => {
+    window.open(PLAY_STORE_URL, '_blank', 'noopener,noreferrer');
+  };
 
   const scrollToSystem = () => {
     if (systemInterfaceRef.current) {
@@ -264,18 +259,7 @@ const MainApp = () => {
   };
 
   const handleAriseClick = () => {
-    if (hunterName) {
-      scrollToSystem();
-    } else {
-      navigate('/register');
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('hunterName');
-    setHunterName(null);
-    setShowProfileDropdown(false);
-    // Optionally navigate to home or refresh if needed, but state update handles UI
+    handleDownload();
   };
 
   const handleAdminLogin = (e: React.FormEvent) => {
@@ -344,49 +328,20 @@ const MainApp = () => {
     <div className="min-h-screen bg-system-bg text-slate-900 font-rajdhani overflow-x-hidden selection:bg-system-neon selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
-      {/* Register Button */}
+      {/* Download Now Button */}
       <div className="fixed top-6 right-6 z-50">
-        {hunterName ? (
-          <div className="relative">
-            <button 
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              className="px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] text-sm md:text-base flex items-center gap-2 hover:bg-cyan-500/20 transition-colors"
-            >
-              <User className="w-4 h-4" />
-              <span>Welcome, {hunterName}</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showProfileDropdown ? 'rotate-180' : ''}`} />
-            </button>
-            
-            <AnimatePresence>
-              {showProfileDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-cyan-500/50 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] overflow-hidden z-50"
-                >
-                  <div className="p-1">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
-                    >
-                      <LogOut className="w-4 h-4 text-cyan-400 group-hover:text-white transition-colors" />
-                      <span className="uppercase tracking-wider">Logout</span>
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ) : (
-          <Link 
-            to="/register" 
-            className="px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-slate-900 transition-all rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] text-sm md:text-base"
-          >
-            Register
-          </Link>
-        )}
+        <button
+          onClick={handleDownload}
+          className="group px-5 py-2.5 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:from-cyan-500 hover:to-emerald-500 hover:text-slate-900 transition-all duration-300 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] text-xs md:text-sm flex items-center gap-2"
+        >
+          <Download className="w-4 h-4 group-hover:animate-bounce" />
+          <span className="hidden sm:inline">Download Now</span>
+          <span className="sm:hidden">Get App</span>
+          {/* Google Play triangle icon */}
+          <svg className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
+          </svg>
+        </button>
       </div>
 
       {/* Grid Background Overlay */}
@@ -460,13 +415,20 @@ const MainApp = () => {
                 <span className="animate-pulse text-cyan-400 ml-1">_</span>
               </h1>
               
-              <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex justify-center md:justify-start`}>
+              <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center md:items-start gap-3`}>
                 <button 
                   onClick={handleAriseClick}
-                  className="w-full md:w-auto px-12 py-4 bg-slate-900 hover:bg-slate-800 text-cyan-50 font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] border border-cyan-500/30 flex items-center justify-center"
+                  className="group w-full md:w-auto px-12 py-4 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all duration-300 rounded-xl shadow-[0_0_25px_rgba(6,182,212,0.3)] hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] border border-cyan-400/30 flex items-center justify-center gap-3"
                 >
-                  ARISE
+                  <Download className="w-5 h-5 group-hover:animate-bounce" />
+                  DOWNLOAD NOW
                 </button>
+                <div className="flex items-center gap-2 text-[10px] md:text-xs text-slate-400 font-mono tracking-wider">
+                  <svg className="w-3.5 h-3.5 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
+                  </svg>
+                  <span>Available on Google Play</span>
+                </div>
               </div>
             </div>
           </div>
@@ -600,8 +562,6 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<MainApp />} />
-      <Route path="/register" element={<RegistrationPage />} />
-      <Route path="/hunter-registered" element={<HunterRegistered />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
     </Routes>
