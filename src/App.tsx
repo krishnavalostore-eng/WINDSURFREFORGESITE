@@ -416,17 +416,11 @@ const MainApp = () => {
                 <span>Accountability AI</span>
               </div>
               
-              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-slate-200 mb-8 min-h-[120px] md:min-h-[140px] lg:min-h-[160px] leading-relaxed relative z-10 font-serif text-center md:text-left drop-shadow-md">
-                {showTextBox && (
-                  <TypewriterText 
-                    text="You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching." 
-                    onComplete={() => setShowButton(true)} 
-                  />
-                )}
-                <span className="animate-pulse text-cyan-400 ml-1">_</span>
+              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-slate-200 mb-8 leading-relaxed relative z-10 font-serif text-center md:text-left drop-shadow-md">
+                You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching.
               </h1>
               
-              <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center md:items-start gap-3`}>
+              <div className="flex flex-col items-center md:items-start gap-3 relative z-10">
                 <button 
                   onClick={handleAriseClick}
                   className="w-full md:w-auto px-12 py-4 bg-slate-900 hover:bg-slate-800 text-cyan-50 font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all duration-300 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] border border-cyan-500/30 flex items-center justify-center"
@@ -445,7 +439,7 @@ const MainApp = () => {
         </div>
 
         {/* Scroll Indicator - Adjusted position */}
-        <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-1000 delay-500 z-20 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+        <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-1000 delay-500 z-20 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
           <ChevronDown className="w-6 h-6 text-cyan-500/50 animate-bounce" />
         </div>
       </section>
