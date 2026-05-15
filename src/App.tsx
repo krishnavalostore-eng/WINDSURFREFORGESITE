@@ -315,8 +315,8 @@ const MainApp = () => {
         setLoadingState('done');
         if (!sessionIntroPlayed && introVideoRef.current) {
           introVideoRef.current.play().catch(console.error);
-          // Show text box immediately as the intro video starts playing
-          setShowTextBox(true);
+          // Show text box at the 5th second of the intro video
+          setTimeout(() => setShowTextBox(true), 5000);
         } else if (sessionIntroPlayed && loopVideoRef.current) {
           setIntroFinished(true);
           setShowTextBox(true);
