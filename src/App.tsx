@@ -315,6 +315,8 @@ const MainApp = () => {
         setLoadingState('done');
         if (!sessionIntroPlayed && introVideoRef.current) {
           introVideoRef.current.play().catch(console.error);
+          // Show text box immediately as the intro video starts playing
+          setShowTextBox(true);
         } else if (sessionIntroPlayed && loopVideoRef.current) {
           setIntroFinished(true);
           setShowTextBox(true);
@@ -405,7 +407,7 @@ const MainApp = () => {
         </div>
 
         {/* Text & CTA Container - Positioned at bottom center on mobile, left on tablet/desktop */}
-        <div className={`absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0 transition-opacity duration-1000 ${introFinished || sessionIntroPlayed ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0 transition-opacity duration-1000 ${showTextBox ? 'opacity-100' : 'opacity-0'}`}>
           <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-2xl lg:max-w-3xl`}>
             <div className="p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)] backdrop-blur-md bg-slate-950/60 md:bg-slate-950/70">
               <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-400 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
