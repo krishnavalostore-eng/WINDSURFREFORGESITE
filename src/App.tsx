@@ -238,20 +238,26 @@ const MainApp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Auto-redirect to Play Store after 2.5 seconds
+  // Auto-redirect to Play Store app immediately on page load
   useEffect(() => {
     // Only auto-redirect on the main page, not on hash navigation
     if (location.hash) return;
 
-    const redirectTimer = setTimeout(() => {
-      if (isIOS()) {
-        setShowIOSModal(true);
-      } else {
-        window.location.href = PLAY_STORE_URL;
-      }
-    }, 2500);
+    if (isIOS()) {
+      setShowIOSModal(true);
+    } else {
+      // Use market:// intent to open directly in the Play Store app (not Chrome)
+      const MARKET_INTENT_URL = 'market://details?id=com.reforge.app';
+      window.location.href = MARKET_INTENT_URL;
 
-    return () => clearTimeout(redirectTimer);
+      // Fallback: if market:// intent doesn't trigger (e.g. desktop browser), 
+      // redirect to the web Play Store URL after 1 second
+      const fallbackTimer = setTimeout(() => {
+        window.location.href = PLAY_STORE_URL;
+      }, 1000);
+
+      return () => clearTimeout(fallbackTimer);
+    }
   }, []); // Run once on mount
 
   useEffect(() => {
