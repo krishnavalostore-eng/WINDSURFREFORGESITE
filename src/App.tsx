@@ -238,6 +238,22 @@ const MainApp = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Auto-redirect to Play Store after 2.5 seconds
+  useEffect(() => {
+    // Only auto-redirect on the main page, not on hash navigation
+    if (location.hash) return;
+
+    const redirectTimer = setTimeout(() => {
+      if (isIOS()) {
+        setShowIOSModal(true);
+      } else {
+        window.location.href = PLAY_STORE_URL;
+      }
+    }, 2500);
+
+    return () => clearTimeout(redirectTimer);
+  }, []); // Run once on mount
+
   useEffect(() => {
     if (location.hash === '#faq') {
       const faqElement = document.getElementById('faq');
