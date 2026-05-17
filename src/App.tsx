@@ -246,17 +246,10 @@ const MainApp = () => {
     if (isIOS()) {
       setShowIOSModal(true);
     } else {
-      // Use market:// intent to open directly in the Play Store app (not Chrome)
-      const MARKET_INTENT_URL = 'market://details?id=com.reforge.app';
-      window.location.href = MARKET_INTENT_URL;
-
-      // Fallback: if market:// intent doesn't trigger (e.g. desktop browser), 
-      // redirect to the web Play Store URL after 1 second
-      const fallbackTimer = setTimeout(() => {
-        window.location.href = PLAY_STORE_URL;
-      }, 1000);
-
-      return () => clearTimeout(fallbackTimer);
+      // Android Intent URL — Chrome on Android intercepts this and opens the Play Store app directly
+      // Falls back to Play Store web URL if the app can't be opened
+      const INTENT_URL = 'intent://details?id=com.reforge.app&referrer=utm_source%3Dwebsite#Intent;scheme=market;action=android.intent.action.VIEW;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(PLAY_STORE_URL) + ';end';
+      window.location.href = INTENT_URL;
     }
   }, []); // Run once on mount
 
