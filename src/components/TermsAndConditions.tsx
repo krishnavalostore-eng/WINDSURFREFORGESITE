@@ -25,7 +25,7 @@ export const TermsAndConditions = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/30 mb-6 shadow-[0_0_30px_rgba(239,68,68,0.2)]">
             <Scale className="w-8 h-8 text-red-500" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif tracking-wider uppercase drop-shadow-[0_0_10px_rgba(239,68,68,0.3)]">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-sans tracking-wider uppercase drop-shadow-[0_0_10px_rgba(239,68,68,0.3)]">
             Terms & <span className="text-red-500">Conditions</span>
           </h1>
           <div className="text-red-500 font-mono text-sm tracking-[0.3em] uppercase animate-pulse">

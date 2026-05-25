@@ -1,16 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  --color-system-bg: #f8fafc;
-  --color-system-neon: #2563eb; /* Deep vibrant blue for light mode */
-  --font-rajdhani: 'Rajdhani', sans-serif;
+  --color-system-bg: #020617;
+  --color-system-neon: #06b6d4; /* Cyan brand */
+  --font-rajdhani: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
-body {
-  font-family: var(--font-rajdhani);
-  background-color: var(--color-system-bg);
-  color: #0f172a; /* slate-900 */
+html, body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #020617;
+  color: #e2e8f0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Glass pill nav */
+.glass-pill {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  box-shadow: 0 8px 32px rgba(6, 182, 212, 0.08), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow: 0 12px 40px rgba(6, 182, 212, 0.12), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-20px); }
+}
+
+@keyframes phone-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-14px) rotate(-2deg); }
+}
+.animate-phone-float { animation: phone-float 6s ease-in-out infinite; }
 
 /* Glassmorphism */
 .glass-panel {

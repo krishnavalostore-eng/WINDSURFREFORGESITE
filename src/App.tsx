@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Play, X, Activity, Shield, Zap, User, CheckCircle2, Crosshair, Dumbbell, Brain, ChevronDown, Lock, LogOut, Download } from 'lucide-react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { AdminPanel } from './components/AdminPanel';
@@ -7,7 +7,11 @@ import { FAQ } from './components/FAQ';
 import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
+import { Header } from './components/Header';
+import { PhoneMockup } from './components/PhoneMockup';
 import { AnimatePresence, motion } from 'motion/react';
+
+const HeroBlob = lazy(() => import('./components/HeroBlob').then(m => ({ default: m.HeroBlob })));
 
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.reforge.app&pcampaignid=web_share';
 
@@ -142,7 +146,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-serif tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-sans tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]"
       >
         Reforge
       </motion.div>
@@ -183,7 +187,7 @@ const ForgeGuardSection = () => {
               <div className="h-[1px] w-8 bg-red-500/50 hidden md:block"></div>
               <span className="text-red-500 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-bold animate-pulse">Security Protocol Active</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-widest uppercase font-serif">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-widest uppercase font-sans">
               Forge<span className="text-red-500">Guard</span>
             </h2>
             <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
@@ -219,15 +223,10 @@ const introMessages = [
 let sessionIntroPlayed = false;
 
 const MainApp = () => {
-  const introVideoRef = useRef<HTMLVideoElement>(null);
-  const loopVideoRef = useRef<HTMLVideoElement>(null);
   const systemInterfaceRef = useRef<HTMLDivElement>(null);
   const [loadingState, setLoadingState] = useState<'loading' | 'fading' | 'done'>('loading');
   const [showTextBox, setShowTextBox] = useState(false);
-  const [showButton, setShowButton] = useState(false);
-  const [introLoaded, setIntroLoaded] = useState(false);
-  const [loopLoaded, setLoopLoaded] = useState(false);
-  const [introFinished, setIntroFinished] = useState(false);
+  const [blobReady, setBlobReady] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authenticatedAdminPass, setAuthenticatedAdminPass] = useState('');
@@ -302,169 +301,118 @@ const MainApp = () => {
   };
 
   useEffect(() => {
-    // Safety fallback: Force load if video takes too long or fails (e.g., slow network, low power mode)
-    const safetyTimer = setTimeout(() => {
-      if (!loopLoaded && loadingState === 'loading') {
-        console.log("Video load timeout reached, forcing system start...");
-        setLoopLoaded(true);
-      }
-    }, 4000);
+    // Safety: force ready after 1.8s even if blob/canvas hasn't signaled
+    const safetyTimer = setTimeout(() => setBlobReady(true), 1800);
     return () => clearTimeout(safetyTimer);
-  }, [loopLoaded, loadingState]);
+  }, []);
 
   useEffect(() => {
-    // Wait for both intro (if not played yet) and loop videos to load before fading out loader
-    const isReady = sessionIntroPlayed ? loopLoaded : (introLoaded && loopLoaded);
-    
-    if (isReady && loadingState === 'loading') {
-      const timer = setTimeout(() => {
-        setLoadingState('fading');
-      }, 500);
+    if (blobReady && loadingState === 'loading') {
+      const timer = setTimeout(() => setLoadingState('fading'), 400);
       return () => clearTimeout(timer);
     }
-  }, [introLoaded, loopLoaded, loadingState]);
+  }, [blobReady, loadingState]);
 
   useEffect(() => {
     if (loadingState === 'fading') {
       const timer = setTimeout(() => {
         setLoadingState('done');
-        if (!sessionIntroPlayed && introVideoRef.current) {
-          introVideoRef.current.play().catch(console.error);
-          // Show text box at the 5th second of the intro video
-          setTimeout(() => setShowTextBox(true), 5000);
-        } else if (sessionIntroPlayed && loopVideoRef.current) {
-          setIntroFinished(true);
-          setShowTextBox(true);
-          loopVideoRef.current.play().catch(console.error);
-        }
+        setShowTextBox(true);
       }, 500);
       return () => clearTimeout(timer);
     }
   }, [loadingState]);
 
-  const handleIntroEnded = () => {
-    setIntroFinished(true);
-    setShowTextBox(true);
-    sessionIntroPlayed = true;
-    if (loopVideoRef.current) {
-      loopVideoRef.current.play().catch(console.error);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-system-bg text-slate-900 font-rajdhani overflow-x-hidden selection:bg-system-neon selection:text-white">
+    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans overflow-x-hidden selection:bg-cyan-500 selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
-      {/* Download Now Button */}
-      <div className="fixed top-6 right-6 z-50">
-        <button
-          onClick={handleDownload}
-          className="group px-5 py-2.5 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:from-cyan-500 hover:to-emerald-500 hover:text-slate-900 transition-all duration-300 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)] text-xs md:text-sm flex items-center gap-2"
-        >
-          <Download className="w-4 h-4 group-hover:animate-bounce" />
-          <span className="hidden sm:inline">Download Now</span>
-          <span className="sm:hidden">Get App</span>
-          <svg className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
-          </svg>
-        </button>
-      </div>
-
-      {/* Grid Background Overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-[0.4]" 
-           style={{ backgroundImage: 'linear-gradient(rgba(37,99,235,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-      </div>
-      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#f1f5f9_100%)]"></div>
+      <Header onDownload={handleDownload} />
 
       {/* Hero Section */}
-      <section className="min-h-screen flex flex-row relative z-10 overflow-hidden">
-        
-        {/* Video Background */}
-        <div className="absolute inset-0 z-0 bg-black">
-          {/* Loop Video (Background/Shadow Loading) */}
-          <video 
-            ref={loopVideoRef}
-            src="https://res.cloudinary.com/dt3adevpo/video/upload/v1775466527/venusloop_tubcvl.mp4"
-            loop
-            muted
-            playsInline
-            webkit-playsinline="true"
-            preload="auto"
-            onCanPlayThrough={() => setLoopLoaded(true)}
-            onLoadedData={() => setLoopLoaded(true)}
-            onError={() => {
-              console.warn("Loop video failed to load, bypassing loader.");
-              setLoopLoaded(true);
-            }}
-            className={`w-full h-full object-cover transition-opacity duration-1000 ${introFinished || sessionIntroPlayed ? 'opacity-100' : 'opacity-0'}`}
-          />
-          
-          {/* Intro Video (Plays once) */}
-          {(!sessionIntroPlayed || !introFinished) && (
-            <video 
-              ref={introVideoRef}
-              src="https://res.cloudinary.com/dt3adevpo/video/upload/v1775466507/venusintro_wfngz3.mp4"
-              muted
-              playsInline
-              webkit-playsinline="true"
-              preload="auto"
-              onCanPlayThrough={() => setIntroLoaded(true)}
-              onLoadedData={() => setIntroLoaded(true)}
-              onEnded={handleIntroEnded}
-              onError={() => {
-                console.warn("Intro video failed to load, skipping to loop.");
-                setIntroLoaded(true);
-                handleIntroEnded();
-              }}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${introFinished ? 'opacity-0' : 'opacity-100'}`}
-            />
-          )}
+      <section className="min-h-screen relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-28 pb-20 md:pt-32 md:pb-24">
+        {/* Deep gradient backdrop */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-[#031927] to-slate-950" />
+
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.25] pointer-events-none"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(34,211,238,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+          }}
+        />
+
+        {/* 3D Blob */}
+        <div className="absolute inset-0">
+          <Suspense fallback={<div className="absolute inset-0" />}>
+            <HeroBlob onReady={() => setBlobReady(true)} />
+          </Suspense>
         </div>
 
-        {/* Text & CTA Container - Positioned at bottom center on mobile, left on tablet/desktop */}
-        <div className={`absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0 transition-opacity duration-1000 ${showTextBox ? 'opacity-100' : 'opacity-0'}`}>
-          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-2xl lg:max-w-3xl`}>
-            <div className="p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)] backdrop-blur-md bg-slate-950/60 md:bg-slate-950/70">
-              <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-400 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
-                <span>Dusk</span>
-                <span className="text-cyan-400">//</span>
-                <span>Accountability AI</span>
-              </div>
-              
-              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-slate-200 mb-8 leading-relaxed relative z-10 font-serif text-center md:text-left drop-shadow-md">
-                You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching.
-              </h1>
-              
-              <div className="flex flex-col items-center md:items-start gap-3 relative z-10">
-                <button 
-                  onClick={handleAriseClick}
-                  className="w-full md:w-auto px-12 py-4 bg-slate-900 hover:bg-slate-800 text-cyan-50 font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all duration-300 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] border border-cyan-500/30 flex items-center justify-center"
-                >
-                  ARISE
-                </button>
-                <div className="flex items-center gap-2 text-[10px] md:text-xs text-slate-400 font-mono tracking-wider">
-                  <svg className="w-3.5 h-3.5 text-emerald-500" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
-                  </svg>
-                  <span>Available on Google Play</span>
-                </div>
-              </div>
-            </div>
+        {/* Hero Content */}
+        <div className={`relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          {/* Giant wordmark */}
+          <h1
+            className="text-white font-extrabold leading-none tracking-tight text-center drop-shadow-[0_4px_30px_rgba(34,211,238,0.35)]"
+            style={{ fontSize: 'clamp(2.75rem, 13vw, 8.5rem)', letterSpacing: '-0.04em' }}
+          >
+            reforge
+          </h1>
+          <p className="mt-3 md:mt-4 text-cyan-200/80 text-sm md:text-base lg:text-lg tracking-[0.2em] uppercase text-center">
+            The Accountability AI
+          </p>
+
+          {/* Phone mockup */}
+          <div className="mt-8 md:mt-10">
+            <PhoneMockup />
           </div>
         </div>
 
-        {/* Scroll Indicator - Adjusted position */}
-        <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-1000 delay-500 z-20 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-          <ChevronDown className="w-6 h-6 text-cyan-500/50 animate-bounce" />
+        {/* Bottom-right CTA card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: showTextBox ? 1 : 0, y: showTextBox ? 0 : 30 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="absolute bottom-6 right-4 left-4 md:left-auto md:right-8 md:bottom-8 z-20 max-w-md md:max-w-sm mx-auto md:mx-0"
+        >
+          <div className="glass-card rounded-2xl p-4 md:p-5 flex items-center gap-4">
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-semibold text-sm md:text-base leading-tight">
+                Available now on Android
+              </p>
+              <p className="text-cyan-200/70 text-xs md:text-sm mt-0.5">
+                Join the System Today
+              </p>
+            </div>
+            <button
+              onClick={handleAriseClick}
+              className="flex-shrink-0 px-5 md:px-6 py-2.5 md:py-3 bg-white text-slate-950 text-sm font-bold tracking-wider rounded-full hover:bg-cyan-300 transition-colors shadow-[0_0_25px_rgba(255,255,255,0.25)]"
+            >
+              ARISE
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Scroll indicator */}
+        <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 transition-opacity duration-1000 delay-700 ${showTextBox ? 'opacity-60' : 'opacity-0'} hidden md:block`}>
+          <ChevronDown className="w-6 h-6 text-cyan-400/70 animate-bounce" />
         </div>
       </section>
 
-      <div ref={systemInterfaceRef}>
+      <div ref={systemInterfaceRef} id="system">
         <Marquee />
       </div>
-      <ForgeGuardSection />
+      <div id="forgeguard">
+        <ForgeGuardSection />
+      </div>
       <InstagramPromo />
-      <FAQ />
+      <div id="faq">
+        <FAQ />
+      </div>
       
       <footer className="py-8 text-center text-slate-500 font-mono text-sm border-t border-system-neon/20 relative z-10 flex flex-col items-center gap-4">
         <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-2">
@@ -606,7 +554,7 @@ const MainApp = () => {
                 </svg>
               </div>
 
-              <h3 className="text-xl font-bold text-white tracking-wider uppercase mb-2 font-serif">
+              <h3 className="text-xl font-bold text-white tracking-wider uppercase mb-2 font-sans">
                 Coming Soon to iOS
               </h3>
               <p className="text-slate-400 text-sm leading-relaxed mb-6">

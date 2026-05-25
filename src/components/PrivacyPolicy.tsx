@@ -25,7 +25,7 @@ export const PrivacyPolicy = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-system-neon/10 border border-system-neon/30 mb-6 shadow-[0_0_30px_rgba(37,99,235,0.2)]">
             <Shield className="w-8 h-8 text-system-neon" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-serif tracking-wider uppercase drop-shadow-[0_0_10px_rgba(37,99,235,0.3)]">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 font-sans tracking-wider uppercase drop-shadow-[0_0_10px_rgba(37,99,235,0.3)]">
             Privacy <span className="text-system-neon">Policy</span>
           </h1>
           <div className="text-system-neon font-mono text-sm tracking-[0.3em] uppercase animate-pulse">
