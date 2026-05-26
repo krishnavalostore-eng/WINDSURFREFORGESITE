@@ -61,34 +61,30 @@ export const HeroIconArc: React.FC<HeroIconArcProps> = ({
             <stop offset="100%" stopColor="rgba(34,211,238,0.0)" />
           </linearGradient>
           {/* Inner shade — subtle cyan fill that fades from center outward */}
-          <radialGradient id="arc-shade" cx="50%" cy="55%" r="55%">
+          <radialGradient id="arc-shade" cx="50%" cy="60%" r="55%">
             <stop offset="0%"   stopColor="rgba(34,211,238,0.10)" />
             <stop offset="55%"  stopColor="rgba(34,211,238,0.05)" />
             <stop offset="85%"  stopColor="rgba(34,211,238,0.02)" />
             <stop offset="100%" stopColor="rgba(34,211,238,0)" />
           </radialGradient>
-          {/* Bottom soft glow — emphasizes the "shade" beneath the ring */}
-          <radialGradient id="arc-bottom-glow" cx="50%" cy="100%" r="60%">
-            <stop offset="0%"   stopColor="rgba(34,211,238,0.18)" />
-            <stop offset="50%"  stopColor="rgba(34,211,238,0.05)" />
-            <stop offset="100%" stopColor="rgba(34,211,238,0)" />
-          </radialGradient>
+          {/* Clip path: only the upper half of the circle */}
+          <clipPath id="arc-upper-clip">
+            <rect x="0" y="0" width={width} height={cy} />
+          </clipPath>
         </defs>
 
-        {/* Soft cyan shade beneath the ring (inside circle area) */}
-        <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-shade)" />
+        {/* Soft cyan shade — clipped to upper hemisphere only */}
+        <g clipPath="url(#arc-upper-clip)">
+          <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-shade)" />
+        </g>
 
-        {/* Lower-hemisphere bottom glow */}
-        <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-bottom-glow)" opacity="0.6" />
-
-        {/* Thin precise ring */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius}
+        {/* Thin precise upper-half arc (no lower half — doesn't cross headline) */}
+        <path
+          d={`M ${cx - radius} ${cy} A ${radius} ${radius} 0 0 1 ${cx + radius} ${cy}`}
           fill="none"
           stroke="url(#arc-stroke)"
           strokeWidth="1.25"
+          strokeLinecap="round"
         />
       </svg>
 
