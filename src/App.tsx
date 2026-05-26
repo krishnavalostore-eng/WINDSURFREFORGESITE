@@ -11,7 +11,7 @@ import { RLogo } from './components/RLogo';
 import { HeroIconArc } from './components/HeroIconArc';
 import { HeroLandscape } from './components/HeroLandscape';
 import { MobileMenu } from './components/MobileMenu';
-import { Sparkles, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.reforge.app&pcampaignid=web_share';
@@ -350,8 +350,8 @@ const MainApp = () => {
 
       {/* Hero Section */}
       <section
-        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-16 sm:pt-20 pb-0 hero-backdrop"
-        style={{ minHeight: '100svh' }}
+        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-14 sm:pt-16 pb-0 hero-backdrop"
+        style={{ minHeight: '92svh' }}
       >
         {/* Soft cyan top glow */}
         <div className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none"
@@ -377,20 +377,13 @@ const MainApp = () => {
               <HeroIconArc width={580} iconBox={54} />
             </div>
 
-            {/* Spacer so content starts inside the upper portion of the ring */}
-            <div className="w-full" style={{ height: 'clamp(190px, 46vw, 320px)' }} />
-
-            {/* AI-Powered pill — sits centered inside the ring */}
-            <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-cyan-400/55 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.18)]">
-              <span className="text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white">
-                AI-Powered Fitness
-              </span>
-              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-            </div>
+            {/* Spacer pushes headline into the lower portion of the ring
+                (slight gap from top so headline isn't centered, just dipped in) */}
+            <div className="w-full" style={{ height: 'clamp(130px, 32vw, 230px)' }} />
 
             {/* Headline — overlaps the lower hemisphere of the ring */}
             <h1
-              className="relative z-10 font-display text-white text-center leading-[0.92] mt-4 whitespace-nowrap"
+              className="relative z-10 font-display text-white text-center leading-[0.92] whitespace-nowrap"
               style={{ fontSize: 'clamp(2.5rem, 13vw, 6.5rem)', letterSpacing: '0.01em' }}
             >
               STOP DREAMING<br />
@@ -399,14 +392,14 @@ const MainApp = () => {
           </div>
 
           {/* Description */}
-          <p className="relative z-10 mt-5 sm:mt-6 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
+          <p className="relative z-10 mt-4 sm:mt-5 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
             AI-powered workouts, personalized plans, smart nutrition tracking and real-time insights to transform your body and mind.
           </p>
 
           {/* CTA Button */}
           <button
             onClick={handleDownload}
-            className="relative z-10 mt-6 sm:mt-7 group px-7 py-3.5 rounded-full bg-slate-950/90 hover:bg-slate-900 border border-cyan-400/60 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
+            className="relative z-10 mt-5 sm:mt-6 group px-7 py-3.5 rounded-full bg-slate-950/90 hover:bg-slate-900 border border-cyan-400/60 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
           >
             <svg className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
