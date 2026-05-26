@@ -60,23 +60,18 @@ export const HeroIconArc: React.FC<HeroIconArcProps> = ({
             <stop offset="80%"  stopColor="rgba(34,211,238,0.45)" />
             <stop offset="100%" stopColor="rgba(34,211,238,0.0)" />
           </linearGradient>
-          {/* Inner shade — subtle cyan fill that fades from center outward */}
-          <radialGradient id="arc-shade" cx="50%" cy="60%" r="55%">
+          {/* Inner shade — radial centered high in the upper arc, fades to
+              fully transparent well before the diameter line so there is
+              no visible horizontal cut. */}
+          <radialGradient id="arc-shade" cx="50%" cy="30%" r="48%">
             <stop offset="0%"   stopColor="rgba(34,211,238,0.10)" />
-            <stop offset="55%"  stopColor="rgba(34,211,238,0.05)" />
-            <stop offset="85%"  stopColor="rgba(34,211,238,0.02)" />
+            <stop offset="50%"  stopColor="rgba(34,211,238,0.04)" />
             <stop offset="100%" stopColor="rgba(34,211,238,0)" />
           </radialGradient>
-          {/* Clip path: only the upper half of the circle */}
-          <clipPath id="arc-upper-clip">
-            <rect x="0" y="0" width={width} height={cy} />
-          </clipPath>
         </defs>
 
-        {/* Soft cyan shade — clipped to upper hemisphere only */}
-        <g clipPath="url(#arc-upper-clip)">
-          <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-shade)" />
-        </g>
+        {/* Soft cyan shade — natural radial fade, no clip = no visible cut */}
+        <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-shade)" />
 
         {/* Thin precise upper-half arc (no lower half — doesn't cross headline) */}
         <path
