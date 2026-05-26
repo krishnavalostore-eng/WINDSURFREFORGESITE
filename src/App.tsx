@@ -376,17 +376,9 @@ const MainApp = () => {
 
         {/* Hero Content */}
         <div className={`relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          {/* Free pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/70 border border-cyan-400/25 backdrop-blur-md">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-slate-200">
-              100% Free · No Subscriptions
-            </span>
-          </div>
-
           {/* Headline */}
           <h1
-            className="mt-5 md:mt-6 text-white font-extrabold leading-[0.95] tracking-tight text-center"
+            className="text-white font-extrabold leading-[0.95] tracking-tight text-center"
             style={{ fontSize: 'clamp(2.25rem, 9vw, 6rem)', letterSpacing: '-0.035em' }}
           >
             Stop Dreaming.<br />
