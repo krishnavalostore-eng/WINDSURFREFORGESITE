@@ -326,8 +326,27 @@ const MainApp = () => {
     <div className="min-h-screen bg-[#020617] text-slate-100 font-sans overflow-x-hidden selection:bg-cyan-500 selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
+      {/* Top Bar */}
+      <div className="absolute top-0 left-0 right-0 z-40 px-4 sm:px-6 pt-4 sm:pt-5 flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <span className="relative w-9 h-9 rounded-xl bg-slate-900/80 border border-cyan-400/30 flex items-center justify-center backdrop-blur-md">
+            <span className="absolute w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+          </span>
+          <span className="text-white font-bold text-lg sm:text-xl tracking-tight">
+            reforge<span className="text-cyan-400">ai</span>
+          </span>
+        </div>
+        <button
+          onClick={handleDownload}
+          aria-label="Download"
+          className="w-11 h-11 rounded-full bg-cyan-400 hover:bg-cyan-300 text-slate-950 flex items-center justify-center shadow-[0_0_25px_rgba(34,211,238,0.5)] transition-colors"
+        >
+          <Download className="w-5 h-5" strokeWidth={2.5} />
+        </button>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-10 pb-32 md:pt-16 md:pb-32 hero-backdrop" style={{ minHeight: '100svh' }}>
+      <section className="relative z-10 overflow-hidden flex flex-col items-center justify-start px-4 pt-24 sm:pt-28 pb-32 md:pt-32 md:pb-32 hero-backdrop" style={{ minHeight: '100svh' }}>
         {/* Subtle grid */}
         <div
           className="absolute inset-0 opacity-[0.18] pointer-events-none"
@@ -357,16 +376,22 @@ const MainApp = () => {
 
         {/* Hero Content */}
         <div className={`relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          {/* Giant wordmark */}
+          {/* Free pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/70 border border-cyan-400/25 backdrop-blur-md">
+            <Zap className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-slate-200">
+              100% Free · No Subscriptions
+            </span>
+          </div>
+
+          {/* Headline */}
           <h1
-            className="text-white font-semibold leading-none tracking-tight text-center text-cyan-glow"
-            style={{ fontSize: 'clamp(2.25rem, 11vw, 7.5rem)', letterSpacing: '-0.035em' }}
+            className="mt-5 md:mt-6 text-white font-extrabold leading-[0.95] tracking-tight text-center"
+            style={{ fontSize: 'clamp(2.25rem, 9vw, 6rem)', letterSpacing: '-0.035em' }}
           >
-            reforge
+            Stop Dreaming.<br />
+            <span className="text-cyan-400 text-cyan-glow">Start Leveling.</span>
           </h1>
-          <p className="mt-3 md:mt-4 text-cyan-200/70 text-xs sm:text-sm md:text-base tracking-[0.28em] uppercase text-center font-light">
-            The Accountability AI
-          </p>
 
           {/* Phone mockup */}
           <div className="mt-6 md:mt-8 lg:mt-10">
