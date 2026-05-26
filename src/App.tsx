@@ -7,7 +7,6 @@ import { FAQ } from './components/FAQ';
 import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
-import { Header } from './components/Header';
 import { PhoneMockup } from './components/PhoneMockup';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -327,10 +326,8 @@ const MainApp = () => {
     <div className="min-h-screen bg-[#020617] text-slate-100 font-sans overflow-x-hidden selection:bg-cyan-500 selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
-      <Header onDownload={handleDownload} />
-
       {/* Hero Section */}
-      <section className="relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-24 pb-24 md:pt-28 md:pb-28 hero-backdrop" style={{ minHeight: '100svh' }}>
+      <section className="relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-10 pb-32 md:pt-16 md:pb-32 hero-backdrop" style={{ minHeight: '100svh' }}>
         {/* Subtle grid */}
         <div
           className="absolute inset-0 opacity-[0.18] pointer-events-none"
@@ -382,20 +379,20 @@ const MainApp = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: showTextBox ? 1 : 0, y: showTextBox ? 0 : 30 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="absolute bottom-6 right-4 left-4 md:left-auto md:right-8 md:bottom-8 z-20 max-w-md md:max-w-sm mx-auto md:mx-0"
+          className="absolute bottom-4 right-3 left-3 md:left-auto md:right-8 md:bottom-8 z-20 max-w-md md:max-w-sm mx-auto md:mx-0"
         >
-          <div className="glass-card rounded-2xl p-4 md:p-5 flex items-center gap-4">
+          <div className="glass-card rounded-2xl p-4 md:p-5 flex items-center gap-3 md:gap-4">
             <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm md:text-base leading-tight">
+              <p className="text-white font-bold text-base md:text-lg leading-tight">
                 Available now on Android
               </p>
-              <p className="text-cyan-200/70 text-xs md:text-sm mt-0.5">
+              <p className="text-cyan-200/80 text-xs md:text-sm mt-1 font-medium">
                 Join the System Today
               </p>
             </div>
             <button
               onClick={handleAriseClick}
-              className="flex-shrink-0 px-5 md:px-6 py-2.5 md:py-3 bg-white text-slate-950 text-sm font-bold tracking-wider rounded-full hover:bg-cyan-300 transition-colors shadow-[0_0_25px_rgba(255,255,255,0.25)]"
+              className="flex-shrink-0 px-6 md:px-7 py-3 md:py-3.5 bg-white text-slate-950 text-sm md:text-base font-extrabold tracking-wider rounded-full hover:bg-cyan-300 transition-colors shadow-[0_0_30px_rgba(255,255,255,0.35)]"
             >
               ARISE
             </button>
