@@ -38,7 +38,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
                 src={src}
                 alt="Reforge app interface"
                 onError={() => setImgFailed(true)}
-                className="absolute inset-0 w-full h-full object-cover object-top"
+                className="absolute inset-x-1.5 top-7 sm:top-8 bottom-1.5 w-[calc(100%-0.75rem)] h-[calc(100%-2rem)] sm:h-[calc(100%-2.25rem)] object-contain object-center rounded-[1.5rem]"
                 draggable={false}
               />
             ) : (
@@ -50,7 +50,7 @@ export const PhoneMockup: React.FC<PhoneMockupProps> = ({
 
             {/* Subtle screen reflection */}
             <div
-              className="absolute inset-0 pointer-events-none mix-blend-screen opacity-40"
+              className="absolute inset-0 pointer-events-none mix-blend-screen opacity-25 rounded-[2.1rem]"
               style={{
                 background:
                   'linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 35%, transparent 70%, rgba(34,211,238,0.12) 100%)',
