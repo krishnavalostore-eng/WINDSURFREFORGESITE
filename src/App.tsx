@@ -330,44 +330,49 @@ const MainApp = () => {
       <Header onDownload={handleDownload} />
 
       {/* Hero Section */}
-      <section className="min-h-screen relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-28 pb-20 md:pt-32 md:pb-24">
-        {/* Deep gradient backdrop */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-[#031927] to-slate-950" />
-
+      <section className="relative z-10 overflow-hidden flex flex-col items-center justify-center px-4 pt-24 pb-24 md:pt-28 md:pb-28 hero-backdrop" style={{ minHeight: '100svh' }}>
         {/* Subtle grid */}
         <div
-          className="absolute inset-0 opacity-[0.25] pointer-events-none"
+          className="absolute inset-0 opacity-[0.18] pointer-events-none"
           style={{
             backgroundImage:
-              'linear-gradient(rgba(34,211,238,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+              'linear-gradient(rgba(34,211,238,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.10) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+            maskImage: 'radial-gradient(ellipse at center, black 25%, transparent 70%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 25%, transparent 70%)',
           }}
         />
 
-        {/* 3D Blob */}
-        <div className="absolute inset-0">
-          <Suspense fallback={<div className="absolute inset-0" />}>
-            <HeroBlob onReady={() => setBlobReady(true)} />
-          </Suspense>
+        {/* 3D Blob — clamped container so it doesn't overflow on mobile */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div
+            className="relative"
+            style={{
+              width: 'min(900px, 92vw)',
+              height: 'min(900px, 92vh)',
+            }}
+          >
+            <Suspense fallback={<div className="absolute inset-0" />}>
+              <HeroBlob onReady={() => setBlobReady(true)} />
+            </Suspense>
+          </div>
         </div>
 
         {/* Hero Content */}
         <div className={`relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           {/* Giant wordmark */}
           <h1
-            className="text-white font-extrabold leading-none tracking-tight text-center drop-shadow-[0_4px_30px_rgba(34,211,238,0.35)]"
-            style={{ fontSize: 'clamp(2.75rem, 13vw, 8.5rem)', letterSpacing: '-0.04em' }}
+            className="text-white font-semibold leading-none tracking-tight text-center text-cyan-glow"
+            style={{ fontSize: 'clamp(2.25rem, 11vw, 7.5rem)', letterSpacing: '-0.035em' }}
           >
             reforge
           </h1>
-          <p className="mt-3 md:mt-4 text-cyan-200/80 text-sm md:text-base lg:text-lg tracking-[0.2em] uppercase text-center">
+          <p className="mt-3 md:mt-4 text-cyan-200/70 text-xs sm:text-sm md:text-base tracking-[0.28em] uppercase text-center font-light">
             The Accountability AI
           </p>
 
           {/* Phone mockup */}
-          <div className="mt-8 md:mt-10">
+          <div className="mt-6 md:mt-8 lg:mt-10">
             <PhoneMockup />
           </div>
         </div>

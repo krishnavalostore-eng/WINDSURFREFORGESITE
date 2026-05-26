@@ -1,59 +1,56 @@
-import React, { Suspense, useMemo, useRef } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { MeshDistortMaterial, Sphere, Environment, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
-const Blob: React.FC = () => {
+const Blob: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const lightRef = useRef<THREE.PointLight>(null);
+  const segments = isMobile ? 64 : 128;
+  const shellSegments = isMobile ? 32 : 48;
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.15;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.13;
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.12;
     }
     if (lightRef.current) {
-      lightRef.current.intensity = 2.4 + Math.sin(state.clock.elapsedTime * 0.8) * 0.4;
+      lightRef.current.intensity = 2.6 + Math.sin(state.clock.elapsedTime * 0.7) * 0.4;
     }
   });
 
   return (
-    <Float speed={1.2} rotationIntensity={0.2} floatIntensity={0.6}>
-      <group>
-        {/* Core blob */}
-        <Sphere ref={meshRef as any} args={[2.2, 128, 128]}>
+    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.5}>
+      <group scale={isMobile ? 0.72 : 1}>
+        {/* Core glossy liquid blob */}
+        <Sphere ref={meshRef as any} args={[2.2, segments, segments]}>
           <MeshDistortMaterial
-            color="#0891b2"
+            color="#0e7490"
             emissive="#06b6d4"
-            emissiveIntensity={0.45}
-            distort={0.48}
-            speed={1.6}
-            roughness={0.25}
-            metalness={0.65}
+            emissiveIntensity={0.35}
+            distort={0.35}
+            speed={1.4}
+            roughness={0.18}
+            metalness={0.9}
           />
         </Sphere>
 
-        {/* Outer dotted wireframe shell */}
-        <Sphere args={[2.32, 48, 48]}>
+        {/* Outer wireframe shell — crisp rim */}
+        <Sphere args={[2.34, shellSegments, shellSegments]}>
           <meshBasicMaterial
-            color="#22d3ee"
+            color="#67e8f9"
             wireframe
             transparent
-            opacity={0.22}
+            opacity={0.14}
           />
         </Sphere>
 
-        {/* Inner glow */}
-        <Sphere args={[2.05, 32, 32]}>
-          <meshBasicMaterial
-            color="#0e7490"
-            transparent
-            opacity={0.18}
-          />
-        </Sphere>
-
-        <pointLight ref={lightRef} position={[3, 2, 3]} color="#22d3ee" intensity={2.5} />
-        <pointLight position={[-4, -2, -2]} color="#0891b2" intensity={1.8} />
+        {/* Cyan key light */}
+        <pointLight ref={lightRef} position={[3, 2.5, 3]} color="#22d3ee" intensity={2.8} />
+        {/* Soft magenta rim light for iridescence */}
+        <pointLight position={[-3.5, -1.5, -2]} color="#a78bfa" intensity={0.7} />
+        {/* Fill */}
+        <pointLight position={[0, -3, 2]} color="#0891b2" intensity={1.2} />
       </group>
     </Float>
   );
@@ -77,7 +74,16 @@ interface HeroBlobProps {
 }
 
 export const HeroBlob: React.FC<HeroBlobProps> = ({ onReady }) => {
-  const dpr = useMemo<[number, number]>(() => [1, 1.6], []);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const dpr = useMemo<[number, number]>(() => (isMobile ? [1, 1.2] : [1, 1.4]), [isMobile]);
 
   return (
     <div className="absolute inset-0 pointer-events-none select-none">
@@ -85,21 +91,21 @@ export const HeroBlob: React.FC<HeroBlobProps> = ({ onReady }) => {
       <Canvas
         dpr={dpr}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        camera={{ position: [0, 0, 6.5], fov: 45 }}
+        camera={{ position: [0, 0, isMobile ? 7.5 : 6.5], fov: 45 }}
         onCreated={() => onReady?.()}
       >
-        <ambientLight intensity={0.35} />
+        <ambientLight intensity={0.3} />
         <Suspense fallback={null}>
-          <Blob />
+          <Blob isMobile={isMobile} />
           <Environment preset="night" />
         </Suspense>
       </Canvas>
-      {/* Soft vignette over canvas */}
+      {/* Soft vignette */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(ellipse at center, transparent 40%, rgba(2,6,23,0.6) 100%)',
+            'radial-gradient(ellipse at center, transparent 45%, rgba(2,6,23,0.65) 100%)',
         }}
       />
     </div>
