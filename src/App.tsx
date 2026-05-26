@@ -330,19 +330,19 @@ const MainApp = () => {
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
       {/* Top Bar */}
-      <div className="absolute top-0 left-0 right-0 z-40 px-5 sm:px-7 pt-4 sm:pt-5 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <RLogo size={34} />
-          <span className="font-display text-white text-base sm:text-lg uppercase tracking-tight">
+      <div className="absolute top-0 left-0 right-0 z-40 px-4 sm:px-6 pt-3.5 sm:pt-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <RLogo size={28} />
+          <span className="font-display text-white text-sm sm:text-base uppercase tracking-[0.02em] leading-none">
             REFORGE<span className="text-cyan-400">AI</span>
           </span>
         </div>
         <button
           onClick={() => setMenuOpen(true)}
           aria-label="Open menu"
-          className="w-11 h-11 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+          className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors"
         >
-          <Menu className="w-7 h-7" strokeWidth={2} />
+          <Menu className="w-6 h-6" strokeWidth={2} />
         </button>
       </div>
 
@@ -350,57 +350,60 @@ const MainApp = () => {
 
       {/* Hero Section */}
       <section
-        className="relative z-10 overflow-hidden flex flex-col items-center justify-start px-4 pt-20 sm:pt-24 pb-0 hero-backdrop"
+        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-14 sm:pt-16 pb-0 hero-backdrop"
         style={{ minHeight: '100svh' }}
       >
         {/* Soft cyan top glow */}
-        <div className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none"
-             style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(34,211,238,0.18) 0%, transparent 65%)' }} />
+        <div className="absolute inset-x-0 top-0 h-[55vh] pointer-events-none"
+             style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 5%, rgba(34,211,238,0.20) 0%, transparent 65%)' }} />
 
-        {/* Hero Content */}
-        <div className={`relative z-10 w-full max-w-2xl mx-auto flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          {/* Icon arc */}
-          <HeroIconArc radius={140} className="mb-2" />
+        {/* Hero Content stack */}
+        <div className={`relative z-10 w-full flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          {/* Icon arc — sits behind the headline */}
+          <div className="relative w-full flex justify-center">
+            <HeroIconArc className="md:hidden" width={340} />
+            <HeroIconArc className="hidden md:block" width={500} />
+          </div>
 
-          {/* AI-Powered pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/70 border border-cyan-400/35 backdrop-blur-md">
-            <span className="text-[11px] sm:text-xs font-semibold tracking-[0.2em] uppercase text-slate-100">
+          {/* AI-Powered pill — overlapping the bottom of the arc */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-cyan-400/55 backdrop-blur-md -mt-7 sm:-mt-8 z-10 shadow-[0_0_20px_rgba(34,211,238,0.18)]">
+            <span className="text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white">
               AI-Powered Fitness
             </span>
             <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
           </div>
 
-          {/* Headline */}
+          {/* Headline — sized so each phrase fits on one line */}
           <h1
-            className="font-display text-white text-center leading-[0.92] mt-5"
-            style={{ fontSize: 'clamp(2.5rem, 12vw, 5.5rem)' }}
+            className="font-display text-white text-center leading-[0.95] mt-3 sm:mt-4 whitespace-nowrap"
+            style={{ fontSize: 'clamp(2rem, 10.5vw, 5rem)', letterSpacing: '-0.01em' }}
           >
             STOP DREAMING<br />
             <span className="text-cyan-400 text-cyan-glow">START LEVELING</span>
           </h1>
 
           {/* Description */}
-          <p className="mt-5 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-2">
+          <p className="mt-4 sm:mt-5 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
             AI-powered workouts, personalized plans, smart nutrition tracking and real-time insights to transform your body and mind.
           </p>
 
           {/* CTA Button */}
           <button
             onClick={handleDownload}
-            className="mt-7 group px-6 py-3.5 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-cyan-400/50 backdrop-blur-md shadow-[0_0_30px_rgba(34,211,238,0.3)] hover:shadow-[0_0_40px_rgba(34,211,238,0.5)] flex items-center gap-3 transition-all"
+            className="mt-6 sm:mt-7 group px-7 py-3.5 rounded-full bg-slate-950/85 hover:bg-slate-900 border border-cyan-400/55 backdrop-blur-md shadow-[0_0_30px_rgba(34,211,238,0.28)] hover:shadow-[0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
           >
-            <svg className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
             </svg>
             <div className="text-left">
-              <div className="text-white font-extrabold text-sm tracking-wider leading-tight">DOWNLOAD NOW</div>
-              <div className="text-slate-400 text-[10px] tracking-[0.15em] mt-0.5">AVAILABLE ON PLAY STORE</div>
+              <div className="text-white font-extrabold text-sm tracking-[0.12em] leading-tight">DOWNLOAD NOW</div>
+              <div className="text-slate-400 text-[10px] tracking-[0.18em] mt-0.5">AVAILABLE ON PLAY STORE</div>
             </div>
           </button>
         </div>
 
         {/* Landscape — fills bottom of hero */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0">
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0 select-none">
           <HeroLandscape />
         </div>
       </section>

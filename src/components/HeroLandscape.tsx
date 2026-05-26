@@ -1,120 +1,135 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 /**
- * SVG approximation of the reference landscape:
- * cyan sky + moonlit valley glow + 3 layered mountain ranges + lake reflection
- * + pine tree silhouettes on the foreground edges + central figure silhouette.
+ * Hero landscape: tries to use /hero-landscape.png if user provides one,
+ * otherwise falls back to a layered atmospheric SVG approximation
+ * (cyan moonlit valley, layered mountains, mist, pine silhouettes, figure).
  */
-export const HeroLandscape: React.FC<{ className?: string }> = ({ className = '' }) => (
+interface HeroLandscapeProps {
+  className?: string;
+  src?: string;
+}
+
+export const HeroLandscape: React.FC<HeroLandscapeProps> = ({
+  className = '',
+  src = '/hero-landscape.png',
+}) => {
+  const [imgFailed, setImgFailed] = useState(false);
+
+  if (!imgFailed) {
+    return (
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        onError={() => setImgFailed(true)}
+        draggable={false}
+        className={`block w-full h-auto select-none ${className}`}
+        style={{ maxHeight: '60vh', objectFit: 'cover', objectPosition: 'center bottom' }}
+      />
+    );
+  }
+
+  return <FallbackLandscape className={className} />;
+};
+
+const FallbackLandscape: React.FC<{ className?: string }> = ({ className }) => (
   <svg
-    viewBox="0 0 800 400"
+    viewBox="0 0 800 500"
     preserveAspectRatio="xMidYMax slice"
     xmlns="http://www.w3.org/2000/svg"
     className={`block w-full h-auto ${className}`}
     aria-hidden="true"
   >
     <defs>
-      {/* Sky gradient */}
       <linearGradient id="hl-sky" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#020617" />
-        <stop offset="55%" stopColor="#051a2a" />
-        <stop offset="85%" stopColor="#0b3a52" />
+        <stop offset="40%" stopColor="#031824" />
+        <stop offset="75%" stopColor="#0b3a52" />
         <stop offset="100%" stopColor="#155e75" />
       </linearGradient>
-
-      {/* Horizon glow */}
-      <radialGradient id="hl-glow" cx="50%" cy="80%" r="55%">
-        <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.55" />
-        <stop offset="60%" stopColor="#0891b2" stopOpacity="0.18" />
+      <radialGradient id="hl-moon" cx="50%" cy="55%" r="55%">
+        <stop offset="0%" stopColor="#a5f3fc" stopOpacity="0.55" />
+        <stop offset="40%" stopColor="#22d3ee" stopOpacity="0.18" />
         <stop offset="100%" stopColor="#0891b2" stopOpacity="0" />
       </radialGradient>
-
-      {/* Lake gradient */}
-      <linearGradient id="hl-lake" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#0e7490" stopOpacity="0.85" />
-        <stop offset="100%" stopColor="#020617" stopOpacity="0.95" />
+      <linearGradient id="hl-water" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#0e7490" stopOpacity="0.95" />
+        <stop offset="100%" stopColor="#020617" stopOpacity="1" />
       </linearGradient>
-
-      {/* Mist */}
-      <linearGradient id="hl-mist" x1="0" y1="0" x2="0" y2="1">
+      <linearGradient id="hl-haze" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#67e8f9" stopOpacity="0" />
-        <stop offset="55%" stopColor="#67e8f9" stopOpacity="0.18" />
+        <stop offset="50%" stopColor="#67e8f9" stopOpacity="0.22" />
         <stop offset="100%" stopColor="#67e8f9" stopOpacity="0" />
       </linearGradient>
     </defs>
 
     {/* Sky */}
-    <rect x="0" y="0" width="800" height="400" fill="url(#hl-sky)" />
+    <rect x="0" y="0" width="800" height="500" fill="url(#hl-sky)" />
 
-    {/* Moon-like horizon glow */}
-    <ellipse cx="400" cy="320" rx="380" ry="120" fill="url(#hl-glow)" />
+    {/* Moon glow at horizon */}
+    <ellipse cx="400" cy="320" rx="320" ry="100" fill="url(#hl-moon)" />
 
-    {/* Back mountain range — lightest, hazy */}
+    {/* Far mountain range */}
     <path
-      d="M0 285 L70 245 L130 270 L200 220 L260 255 L330 215 L400 245 L470 210 L540 250 L610 215 L680 255 L750 230 L800 250 L800 320 L0 320 Z"
+      d="M0 290 L40 270 L90 285 L150 250 L210 275 L280 240 L340 270 L410 235 L480 265 L550 235 L620 270 L690 245 L760 270 L800 260 L800 350 L0 350 Z"
       fill="#155e75"
       opacity="0.55"
     />
 
-    {/* Middle mountain range */}
+    {/* Mid mountain range */}
     <path
-      d="M0 320 L60 280 L120 305 L185 250 L250 290 L320 245 L390 285 L460 240 L530 280 L605 245 L680 285 L760 255 L800 280 L800 340 L0 340 Z"
+      d="M0 340 L60 295 L130 320 L200 270 L275 305 L355 260 L430 300 L510 260 L585 300 L660 270 L735 305 L800 285 L800 380 L0 380 Z"
       fill="#0e7490"
-      opacity="0.75"
+      opacity="0.85"
     />
 
-    {/* Mist line */}
-    <rect x="0" y="305" width="800" height="40" fill="url(#hl-mist)" />
+    {/* Haze */}
+    <rect x="0" y="320" width="800" height="60" fill="url(#hl-haze)" />
 
-    {/* Front mountain range — darkest */}
+    {/* Front mountains - sharper */}
     <path
-      d="M0 360 L70 305 L130 335 L195 280 L265 320 L340 275 L420 320 L490 275 L560 315 L640 285 L720 325 L800 305 L800 400 L0 400 Z"
+      d="M0 400 L70 330 L140 365 L210 305 L290 350 L370 295 L445 340 L520 295 L600 335 L680 305 L760 345 L800 325 L800 500 L0 500 Z"
       fill="#020617"
     />
 
-    {/* Lake reflection */}
-    <rect x="0" y="340" width="800" height="60" fill="url(#hl-lake)" />
-
-    {/* Faint reflection lines */}
-    <g opacity="0.35">
-      <line x1="200" y1="355" x2="600" y2="355" stroke="#67e8f9" strokeWidth="0.5" />
-      <line x1="240" y1="365" x2="560" y2="365" stroke="#67e8f9" strokeWidth="0.5" />
-      <line x1="300" y1="375" x2="500" y2="375" stroke="#67e8f9" strokeWidth="0.5" />
+    {/* Lake water */}
+    <rect x="0" y="378" width="800" height="50" fill="url(#hl-water)" />
+    <g opacity="0.4">
+      <line x1="200" y1="390" x2="600" y2="390" stroke="#67e8f9" strokeWidth="0.5" />
+      <line x1="240" y1="400" x2="560" y2="400" stroke="#67e8f9" strokeWidth="0.5" />
+      <line x1="290" y1="410" x2="510" y2="410" stroke="#67e8f9" strokeWidth="0.5" />
     </g>
 
-    {/* Central rock outcrop */}
+    {/* Cliff (where the figure stands) */}
     <path
-      d="M360 360 Q380 348 400 348 Q420 348 440 360 L450 400 L350 400 Z"
-      fill="#000000"
+      d="M180 500 L180 420 Q200 405 230 405 Q260 405 285 420 L300 500 Z"
+      fill="#000"
     />
 
-    {/* Central figure silhouette — person standing facing the valley */}
-    <g transform="translate(388 318)" fill="#000000">
-      {/* head */}
+    {/* Person silhouette */}
+    <g transform="translate(225 370)" fill="#000">
       <circle cx="12" cy="6" r="5" />
-      {/* torso */}
-      <path d="M6 11 L18 11 L20 28 L4 28 Z" />
-      {/* arms */}
-      <rect x="2" y="13" width="3" height="14" rx="1.5" />
-      <rect x="19" y="13" width="3" height="14" rx="1.5" />
-      {/* legs */}
-      <rect x="7" y="28" width="4" height="16" rx="1.5" />
-      <rect x="13" y="28" width="4" height="16" rx="1.5" />
+      <path d="M5 12 L20 12 L22 32 L3 32 Z" />
+      <rect x="0" y="14" width="3" height="16" rx="1.5" />
+      <rect x="22" y="14" width="3" height="16" rx="1.5" />
+      <rect x="6" y="32" width="4" height="20" rx="1.5" />
+      <rect x="14" y="32" width="4" height="20" rx="1.5" />
     </g>
 
-    {/* Pine trees — left foreground cluster */}
-    <PineCluster x={20} y={400} flip={false} />
-    <PineCluster x={75} y={400} flip={false} scale={0.78} />
-    <PineCluster x={135} y={400} flip={false} scale={0.6} />
+    {/* Pine trees - left foreground */}
+    <DetailedPine x={30}  y={500} scale={1.0}  flip={false} />
+    <DetailedPine x={95}  y={500} scale={0.78} flip={false} />
+    <DetailedPine x={150} y={500} scale={0.55} flip={false} />
 
-    {/* Pine trees — right foreground cluster */}
-    <PineCluster x={780} y={400} flip />
-    <PineCluster x={725} y={400} flip scale={0.78} />
-    <PineCluster x={665} y={400} flip scale={0.6} />
+    {/* Pine trees - right foreground */}
+    <DetailedPine x={770} y={500} scale={1.0}  flip />
+    <DetailedPine x={705} y={500} scale={0.78} flip />
+    <DetailedPine x={645} y={500} scale={0.55} flip />
   </svg>
 );
 
-const PineCluster: React.FC<{ x: number; y: number; flip?: boolean; scale?: number }> = ({
+const DetailedPine: React.FC<{ x: number; y: number; flip?: boolean; scale?: number }> = ({
   x,
   y,
   flip = false,
@@ -122,11 +137,9 @@ const PineCluster: React.FC<{ x: number; y: number; flip?: boolean; scale?: numb
 }) => (
   <g transform={`translate(${x} ${y}) scale(${flip ? -scale : scale} ${scale})`}>
     {/* Trunk */}
-    <rect x="-3" y="-30" width="6" height="30" fill="#000" />
-    {/* Layers */}
-    <polygon points="0,-110 -28,-60 28,-60" fill="#000" />
-    <polygon points="0,-85 -34,-30 34,-30" fill="#000" />
-    <polygon points="0,-55 -38,0 38,0" fill="#000" />
+    <rect x="-3" y="-40" width="6" height="40" fill="#000" />
+    {/* Multi-tier branches w/ slight randomness */}
+    <polygon points="0,-150 -28,-110 -10,-110 -32,-78 -8,-78 -36,-40 -6,-40 -4,-30 4,-30 6,-40 36,-40 8,-78 32,-78 10,-110 28,-110" fill="#000" />
   </g>
 );
 
