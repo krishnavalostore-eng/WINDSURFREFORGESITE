@@ -9,32 +9,42 @@ interface ArcIcon {
 }
 
 const ICONS: ArcIcon[] = [
-  { Icon: Footprints,     angle: 175, delay: 0    },
+  { Icon: Footprints,     angle: 178, delay: 0    },
   { Icon: Dumbbell,       angle: 130, delay: 0.4  },
   { Icon: Salad,          angle: 90,  delay: 0.8  },
   { Icon: PersonStanding, angle: 50,  delay: 1.2  },
-  { Icon: GlassWater,     angle: 5,   delay: 1.6  },
+  { Icon: GlassWater,     angle: 2,   delay: 1.6  },
 ];
 
 interface HeroIconArcProps {
   className?: string;
-  /** Total width of the arc bounding box in px (mobile default). Scales by max-w. */
+  /** Full diameter of the ring (also the bbox width). */
   width?: number;
+  /** Icon tile size. */
+  iconBox?: number;
 }
 
-export const HeroIconArc: React.FC<HeroIconArcProps> = ({ className = '', width = 360 }) => {
-  const iconBox = 44; // mobile size
+/**
+ * Full circle ring + inner cyan shade + 5 icons on the upper arc.
+ * Designed to be placed behind the headline so the ring visually
+ * wraps around the text (headline sits in the lower hemisphere).
+ */
+export const HeroIconArc: React.FC<HeroIconArcProps> = ({
+  className = '',
+  width = 560,
+  iconBox = 50,
+}) => {
   const radius = (width - iconBox) / 2;
   const cx = width / 2;
-  const cy = radius + iconBox / 2; // pivot near vertical center of half-circle
-  const height = cy + iconBox / 2;
+  const cy = width / 2;
+  const height = width; // square bounding box
 
   return (
     <div
-      className={`relative pointer-events-none select-none mx-auto ${className}`}
-      style={{ width, maxWidth: '100%', height }}
+      className={`relative pointer-events-none select-none ${className}`}
+      style={{ width, height }}
     >
-      {/* Cyan semicircle ring behind icons */}
+      {/* Ring + inner shade SVG */}
       <svg
         viewBox={`0 0 ${width} ${height}`}
         className="absolute inset-0 w-full h-full"
@@ -42,33 +52,47 @@ export const HeroIconArc: React.FC<HeroIconArcProps> = ({ className = '', width 
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="ring-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="rgba(34,211,238,0.05)" />
-            <stop offset="50%" stopColor="rgba(34,211,238,0.55)" />
-            <stop offset="100%" stopColor="rgba(34,211,238,0.05)" />
+          {/* Thin ring stroke gradient — bright at sides, soft at top/bottom */}
+          <linearGradient id="arc-stroke" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stopColor="rgba(34,211,238,0.0)" />
+            <stop offset="20%"  stopColor="rgba(34,211,238,0.45)" />
+            <stop offset="50%"  stopColor="rgba(34,211,238,0.55)" />
+            <stop offset="80%"  stopColor="rgba(34,211,238,0.45)" />
+            <stop offset="100%" stopColor="rgba(34,211,238,0.0)" />
           </linearGradient>
+          {/* Inner shade — subtle cyan fill that fades from center outward */}
+          <radialGradient id="arc-shade" cx="50%" cy="55%" r="55%">
+            <stop offset="0%"   stopColor="rgba(34,211,238,0.10)" />
+            <stop offset="55%"  stopColor="rgba(34,211,238,0.05)" />
+            <stop offset="85%"  stopColor="rgba(34,211,238,0.02)" />
+            <stop offset="100%" stopColor="rgba(34,211,238,0)" />
+          </radialGradient>
+          {/* Bottom soft glow — emphasizes the "shade" beneath the ring */}
+          <radialGradient id="arc-bottom-glow" cx="50%" cy="100%" r="60%">
+            <stop offset="0%"   stopColor="rgba(34,211,238,0.18)" />
+            <stop offset="50%"  stopColor="rgba(34,211,238,0.05)" />
+            <stop offset="100%" stopColor="rgba(34,211,238,0)" />
+          </radialGradient>
         </defs>
-        {/* Outer faint full circle (just upper half visible) */}
+
+        {/* Soft cyan shade beneath the ring (inside circle area) */}
+        <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-shade)" />
+
+        {/* Lower-hemisphere bottom glow */}
+        <circle cx={cx} cy={cy} r={radius - 2} fill="url(#arc-bottom-glow)" opacity="0.6" />
+
+        {/* Thin precise ring */}
         <circle
           cx={cx}
           cy={cy}
           r={radius}
           fill="none"
-          stroke="url(#ring-grad)"
-          strokeWidth="1.2"
-          opacity="0.9"
-        />
-        {/* Slightly larger glow ring */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius + 8}
-          fill="none"
-          stroke="rgba(34,211,238,0.08)"
-          strokeWidth="14"
+          stroke="url(#arc-stroke)"
+          strokeWidth="1.25"
         />
       </svg>
 
+      {/* Icon tiles on the upper arc */}
       {ICONS.map(({ Icon, angle, delay }, i) => {
         const rad = (angle * Math.PI) / 180;
         const x = cx + radius * Math.cos(rad) - iconBox / 2;
@@ -85,8 +109,10 @@ export const HeroIconArc: React.FC<HeroIconArcProps> = ({ className = '', width 
               animation: `arc-float 5s ease-in-out ${delay}s infinite`,
             }}
           >
-            <div className="w-full h-full rounded-xl bg-slate-950/85 border border-cyan-400/55 backdrop-blur-md flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.18)]">
-              <Icon className="w-[18px] h-[18px] text-cyan-300" strokeWidth={1.7} />
+            <div className="relative w-full h-full rounded-2xl bg-slate-950/90 border border-cyan-400/55 backdrop-blur-md flex items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.6),0_0_18px_rgba(34,211,238,0.18)]">
+              {/* Inner highlight for a premium feel */}
+              <span className="absolute inset-x-2 top-1 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent rounded-full" />
+              <Icon className="w-[20px] h-[20px] text-cyan-300" strokeWidth={1.6} />
             </div>
           </div>
         );

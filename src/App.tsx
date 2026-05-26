@@ -350,47 +350,63 @@ const MainApp = () => {
 
       {/* Hero Section */}
       <section
-        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-14 sm:pt-16 pb-0 hero-backdrop"
+        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-16 sm:pt-20 pb-0 hero-backdrop"
         style={{ minHeight: '100svh' }}
       >
         {/* Soft cyan top glow */}
-        <div className="absolute inset-x-0 top-0 h-[55vh] pointer-events-none"
-             style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 5%, rgba(34,211,238,0.20) 0%, transparent 65%)' }} />
+        <div className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none"
+             style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 5%, rgba(34,211,238,0.18) 0%, transparent 65%)' }} />
 
         {/* Hero Content stack */}
-        <div className={`relative z-10 w-full flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          {/* Icon arc — sits behind the headline */}
-          <div className="relative w-full flex justify-center">
-            <HeroIconArc className="md:hidden" width={340} />
-            <HeroIconArc className="hidden md:block" width={500} />
-          </div>
+        <div className={`relative z-20 w-full flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
 
-          {/* AI-Powered pill — overlapping the bottom of the arc */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-cyan-400/55 backdrop-blur-md -mt-7 sm:-mt-8 z-10 shadow-[0_0_20px_rgba(34,211,238,0.18)]">
-            <span className="text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white">
-              AI-Powered Fitness
-            </span>
-            <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
-          </div>
+          {/* === Arc + Pill + Headline composition ===
+              The arc is absolutely positioned behind the headline so the
+              ring visually wraps around the text. */}
+          <div className="relative w-full flex flex-col items-center">
+            {/* Arc background — mobile */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 sm:hidden" aria-hidden="true">
+              <HeroIconArc width={340} iconBox={42} />
+            </div>
+            {/* Arc background — sm/md */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 hidden sm:block md:hidden" aria-hidden="true">
+              <HeroIconArc width={460} iconBox={48} />
+            </div>
+            {/* Arc background — desktop */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 hidden md:block" aria-hidden="true">
+              <HeroIconArc width={580} iconBox={54} />
+            </div>
 
-          {/* Headline — sized so each phrase fits on one line */}
-          <h1
-            className="font-display text-white text-center leading-[0.9] mt-3 sm:mt-4 whitespace-nowrap"
-            style={{ fontSize: 'clamp(3rem, 14vw, 7rem)', letterSpacing: '0.01em' }}
-          >
-            STOP DREAMING<br />
-            <span className="text-cyan-400 text-cyan-glow">START LEVELING</span>
-          </h1>
+            {/* Spacer so content starts inside the upper portion of the ring */}
+            <div className="w-full" style={{ height: 'clamp(190px, 46vw, 320px)' }} />
+
+            {/* AI-Powered pill — sits centered inside the ring */}
+            <div className="relative z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-cyan-400/55 backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.18)]">
+              <span className="text-[10px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white">
+                AI-Powered Fitness
+              </span>
+              <Sparkles className="w-3.5 h-3.5 text-cyan-300" />
+            </div>
+
+            {/* Headline — overlaps the lower hemisphere of the ring */}
+            <h1
+              className="relative z-10 font-display text-white text-center leading-[0.92] mt-4 whitespace-nowrap"
+              style={{ fontSize: 'clamp(2.5rem, 13vw, 6.5rem)', letterSpacing: '0.01em' }}
+            >
+              STOP DREAMING<br />
+              <span className="text-cyan-400 text-cyan-glow">START LEVELING</span>
+            </h1>
+          </div>
 
           {/* Description */}
-          <p className="mt-4 sm:mt-5 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
+          <p className="relative z-10 mt-5 sm:mt-6 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
             AI-powered workouts, personalized plans, smart nutrition tracking and real-time insights to transform your body and mind.
           </p>
 
           {/* CTA Button */}
           <button
             onClick={handleDownload}
-            className="mt-6 sm:mt-7 group px-7 py-3.5 rounded-full bg-slate-950/85 hover:bg-slate-900 border border-cyan-400/55 backdrop-blur-md shadow-[0_0_30px_rgba(34,211,238,0.28)] hover:shadow-[0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
+            className="relative z-10 mt-6 sm:mt-7 group px-7 py-3.5 rounded-full bg-slate-950/90 hover:bg-slate-900 border border-cyan-400/60 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
           >
             <svg className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
               <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
@@ -402,9 +418,20 @@ const MainApp = () => {
           </button>
         </div>
 
-        {/* Landscape — fills bottom of hero */}
+        {/* Landscape image — feathered top edge, properly anchored bottom */}
         <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0 select-none">
-          <HeroLandscape />
+          <div
+            className="relative w-full"
+            style={{
+              maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 18%, black 45%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 18%, black 45%)',
+            }}
+          >
+            <HeroLandscape />
+          </div>
+          {/* Side vignette to blend image edges into background */}
+          <div className="absolute inset-0 pointer-events-none"
+               style={{ background: 'radial-gradient(ellipse 85% 60% at 50% 100%, transparent 50%, rgba(2,6,23,0.6) 85%, rgba(2,6,23,0.95) 100%)' }} />
         </div>
       </section>
 
