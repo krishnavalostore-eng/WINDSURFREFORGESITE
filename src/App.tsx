@@ -167,39 +167,39 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
 
 const ForgeGuardSection = () => {
   return (
-    <section className="py-12 px-8 container mx-auto relative z-10">
-      <div className="max-w-5xl mx-auto liquid-glass p-8 md:p-12 rounded-3xl border border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.1)] relative overflow-hidden group hover:border-red-500/50 transition-colors duration-500">
-        {/* Background accent */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:bg-red-500/10 transition-colors duration-700"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-        
+    <section className="py-16 md:py-24 px-4 sm:px-8 container mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden group transition-colors duration-500">
+        {/* Cyan accent glows */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-400/8 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
         <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
           <div className="flex-shrink-0 relative">
-            <div className="absolute inset-0 border-2 border-dashed border-red-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
-            <div className="w-28 h-28 rounded-full border border-red-500/50 flex items-center justify-center bg-red-500/5 shadow-[0_0_20px_rgba(239,68,68,0.2)] relative z-10 backdrop-blur-sm">
-              <Shield className="w-12 h-12 text-red-500" />
+            <div className="absolute inset-0 border-2 border-dashed border-cyan-400/30 rounded-full animate-[spin_18s_linear_infinite]"></div>
+            <div className="w-28 h-28 rounded-full border border-cyan-400/50 flex items-center justify-center bg-cyan-400/8 shadow-[0_0_30px_rgba(34,211,238,0.35)] relative z-10 backdrop-blur-sm">
+              <Shield className="w-12 h-12 text-cyan-300" strokeWidth={1.8} />
             </div>
           </div>
-          
+
           <div className="flex-1 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-              <div className="h-[1px] w-8 bg-red-500/50 hidden md:block"></div>
-              <span className="text-red-500 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-bold animate-pulse">Security Protocol Active</span>
+              <div className="h-[1px] w-8 bg-cyan-400/60 hidden md:block"></div>
+              <span className="text-cyan-300 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-bold">Security Protocol Active</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-widest uppercase font-sans">
-              Forge<span className="text-red-500">Guard</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
+              Forge<span className="text-cyan-400 text-cyan-glow">Guard</span>
             </h2>
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
-              Introduced by the New Architect, ForgeGuard is an uncompromising anti-cheat mechanism woven directly into the System's core. It ensures absolute fair play by detecting <strong className="text-red-500 font-mono">99.9%</strong> of anomalies, unauthorized modifications, and fake quest completions. The System cannot be deceived.
+            <p className="text-slate-300 text-base md:text-lg leading-relaxed mb-6 font-light">
+              Introduced by the New Architect, ForgeGuard is an uncompromising anti-cheat mechanism woven directly into the System's core. It ensures absolute fair play by detecting <strong className="text-cyan-300 font-bold">99.9%</strong> of anomalies, unauthorized modifications, and fake quest completions. The System cannot be deceived.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 text-sm font-mono text-slate-500">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 sm:gap-6 text-sm text-slate-300">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-red-500" />
-                <span className="uppercase tracking-wider">Fair Play Enforced</span>
+                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                <span className="uppercase tracking-wider font-semibold">Fair Play Enforced</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-red-500" />
-                <span className="uppercase tracking-wider">Anomaly Detection</span>
+                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                <span className="uppercase tracking-wider font-semibold">Anomaly Detection</span>
               </div>
             </div>
           </div>
