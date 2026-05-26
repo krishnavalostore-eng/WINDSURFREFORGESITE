@@ -12,7 +12,7 @@ interface HeroLandscapeProps {
 
 export const HeroLandscape: React.FC<HeroLandscapeProps> = ({
   className = '',
-  src = '/hero-landscape.png',
+  src = '/hero-landscape.jpg',
 }) => {
   const [imgFailed, setImgFailed] = useState(false);
 

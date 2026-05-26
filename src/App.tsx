@@ -333,7 +333,7 @@ const MainApp = () => {
       <div className="absolute top-0 left-0 right-0 z-40 px-4 sm:px-6 pt-3.5 sm:pt-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <RLogo size={28} />
-          <span className="font-display text-white text-sm sm:text-base uppercase tracking-[0.02em] leading-none">
+          <span className="font-display text-white text-xl sm:text-2xl uppercase tracking-[0.04em] leading-none">
             REFORGE<span className="text-cyan-400">AI</span>
           </span>
         </div>
@@ -375,8 +375,8 @@ const MainApp = () => {
 
           {/* Headline — sized so each phrase fits on one line */}
           <h1
-            className="font-display text-white text-center leading-[0.95] mt-3 sm:mt-4 whitespace-nowrap"
-            style={{ fontSize: 'clamp(2rem, 10.5vw, 5rem)', letterSpacing: '-0.01em' }}
+            className="font-display text-white text-center leading-[0.9] mt-3 sm:mt-4 whitespace-nowrap"
+            style={{ fontSize: 'clamp(3rem, 14vw, 7rem)', letterSpacing: '0.01em' }}
           >
             STOP DREAMING<br />
             <span className="text-cyan-400 text-cyan-glow">START LEVELING</span>
