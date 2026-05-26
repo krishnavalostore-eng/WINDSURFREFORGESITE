@@ -12,7 +12,7 @@ interface PhoneMockupProps {
 
 export const PhoneMockup: React.FC<PhoneMockupProps> = ({
   className = '',
-  src = '/app-screenshot.png',
+  src = '/app-screenshot.jpg',
 }) => {
   const [imgFailed, setImgFailed] = useState(false);
 
