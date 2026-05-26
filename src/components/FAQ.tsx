@@ -41,58 +41,76 @@ export const FAQ = () => {
   };
 
   return (
-    <section id="faq" className="py-24 px-8 container mx-auto relative z-10">
-      <div className="flex flex-col items-center mb-16">
-        <div className="relative">
-          <HelpCircle className="w-16 h-16 text-system-neon mb-4 animate-pulse opacity-50" />
-          <HelpCircle className="w-16 h-16 text-system-neon absolute top-0 left-0 animate-ping opacity-20" />
+    <section id="faq" className="py-20 md:py-28 px-4 sm:px-8 container mx-auto relative z-10">
+      <div className="flex flex-col items-center mb-12 md:mb-16">
+        <div className="relative w-16 h-16 mb-5">
+          <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-xl" />
+          <div className="absolute inset-0 rounded-full border border-cyan-400/40 flex items-center justify-center backdrop-blur-md bg-slate-900/60">
+            <HelpCircle className="w-8 h-8 text-cyan-300" strokeWidth={1.8} />
+          </div>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-slate-900 tracking-widest uppercase neon-text">
-          Knowledge <span className="text-system-neon">Base</span>
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-center text-white tracking-tight">
+          Knowledge <span className="text-cyan-400 text-cyan-glow">Base</span>
         </h2>
-        <div className="h-1 w-32 bg-system-neon/30 mt-6 rounded-full relative overflow-hidden">
-          <div className="absolute inset-0 bg-system-neon animate-[scanline_2s_linear_infinite]"></div>
-        </div>
+        <p className="mt-4 text-slate-400 text-sm md:text-base text-center max-w-xl">
+          Everything you need to know about the System.
+        </p>
+        <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mt-6 rounded-full" />
       </div>
 
-      <div className="max-w-4xl mx-auto space-y-6">
-        {faqs.map((faq, index) => (
-          <div 
-            key={index}
-            className={`group border transition-all duration-500 rounded-2xl overflow-hidden ${
-              openIndex === index 
-                ? 'border-system-neon bg-white shadow-[0_0_30px_rgba(37,99,235,0.15)] scale-[1.02]' 
-                : 'border-slate-200 bg-white/50 hover:border-system-neon/40 hover:bg-white hover:shadow-xl'
-            }`}
-          >
-            <button
-              onClick={() => toggleFAQ(index)}
-              className="w-full px-8 py-6 flex items-center justify-between text-left focus:outline-none"
-            >
-              <span className={`font-mono text-lg md:text-xl font-bold tracking-tight transition-colors duration-300 ${
-                openIndex === index ? 'text-system-neon' : 'text-slate-700 group-hover:text-slate-900'
-              }`}>
-                <span className="text-system-neon/40 mr-4 font-mono text-sm">0{index + 1}</span>
-                {faq.question}
-              </span>
-              <div className={`p-2 rounded-full transition-all duration-500 ${
-                openIndex === index ? 'bg-system-neon text-white rotate-180' : 'bg-slate-100 text-slate-400 group-hover:bg-system-neon/10 group-hover:text-system-neon'
-              }`}>
-                <ChevronDown className="w-5 h-5" />
-              </div>
-            </button>
-            
-            <div 
-              className={`transition-all duration-500 ease-in-out ${
-                openIndex === index ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+      <div className="max-w-3xl mx-auto space-y-4">
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+          return (
+            <div
+              key={index}
+              className={`group rounded-2xl overflow-hidden transition-all duration-300 border backdrop-blur-md ${
+                isOpen
+                  ? 'border-cyan-400/50 bg-slate-900/70 shadow-[0_0_40px_rgba(34,211,238,0.18)]'
+                  : 'border-cyan-400/15 bg-slate-900/40 hover:border-cyan-400/35 hover:bg-slate-900/55'
               }`}
             >
-              <div className="px-8 pb-8 text-slate-600 leading-relaxed text-base md:text-lg border-t border-slate-100 pt-6 whitespace-pre-line">
-                {faq.answer}
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full px-5 sm:px-7 py-5 flex items-center justify-between text-left focus:outline-none gap-4"
+              >
+                <span className="flex items-start gap-4 flex-1 min-w-0">
+                  <span className="text-cyan-400/70 font-mono text-xs sm:text-sm font-semibold pt-1 select-none">
+                    0{index + 1}
+                  </span>
+                  <span
+                    className={`text-base sm:text-lg font-semibold tracking-tight transition-colors ${
+                      isOpen ? 'text-white' : 'text-slate-200 group-hover:text-white'
+                    }`}
+                  >
+                    {faq.question}
+                  </span>
+                </span>
+                <div
+                  className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    isOpen
+                      ? 'bg-cyan-400 text-slate-950 rotate-180'
+                      : 'bg-slate-800/80 text-cyan-300 group-hover:bg-cyan-400/20'
+                  }`}
+                >
+                  <ChevronDown className="w-4 h-4" strokeWidth={2.5} />
+                </div>
+              </button>
+
+              <div
+                className={`grid transition-all duration-400 ease-in-out ${
+                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div className="px-5 sm:px-7 pb-6 pt-2 pl-12 sm:pl-16 text-slate-300 leading-relaxed text-sm sm:text-base whitespace-pre-line font-light">
+                    {faq.answer}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
