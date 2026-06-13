@@ -11,7 +11,6 @@ import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { AnimatePresence, motion } from 'motion/react';
-import { StatsModal } from './components/StatsModal';
 
 // --- Components ---
 
@@ -239,7 +238,6 @@ const MainApp = () => {
   const [adminPass, setAdminPass] = useState('');
   const [adminError, setAdminError] = useState('');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
 
   const loopVideoRef = useRef<HTMLVideoElement>(null);
   const systemInterfaceRef = useRef<HTMLDivElement>(null);
@@ -271,11 +269,6 @@ const MainApp = () => {
   };
 
   const handleAriseClick = () => {
-    setIsStatsModalOpen(true);
-  };
-
-  const handleStatsModalAccept = () => {
-    setIsStatsModalOpen(false);
     if (hunterName) {
       scrollToSystem();
     } else {
@@ -439,14 +432,14 @@ const MainApp = () => {
 
               {/* Message Block */}
               <div className="flex-1 flex flex-col justify-center items-center text-center px-2 md:px-4 mt-2">
-                <h1 className="text-[11px] sm:text-[12px] md:text-[14px] font-bold text-[#00d4ff] tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full drop-shadow-[0_0_6px_rgba(0,212,255,0.4)]">
+                <h1 className="text-[11px] sm:text-[12px] md:text-[14px] font-bold text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
                   {showTextBox && (
                     <TypewriterText 
                       text={"SYSTEM ACKNOWLEDGED.\n\nYOU HAVE BEEN DETECTED BY THE SYSTEM.\nWE ARE HERE TO FORGE YOUR PATH.\n\nDO NOT FALTER."} 
                       onComplete={() => setShowButton(true)} 
                     />
                   )}
-                  <span className="animate-pulse text-[#00d4ff] ml-0.5 font-bold">_</span>
+                  <span className="animate-pulse text-white ml-0.5 font-bold">_</span>
                 </h1>
               </div>
 
@@ -562,16 +555,7 @@ const MainApp = () => {
         )}
       </AnimatePresence>
 
-      {/* Stats Modal Overlay */}
-      <AnimatePresence>
-        {isStatsModalOpen && (
-          <StatsModal
-            isOpen={isStatsModalOpen}
-            onClose={() => setIsStatsModalOpen(false)}
-            onAccept={handleStatsModalAccept}
-          />
-        )}
-      </AnimatePresence>
+
 
       {/* Admin Panel Overlay */}
       <AnimatePresence>
