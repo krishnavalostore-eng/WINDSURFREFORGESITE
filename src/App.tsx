@@ -6,7 +6,6 @@ import { Marquee } from './components/Marquee';
 import { FAQ } from './components/FAQ';
 import { RegistrationPage } from './components/RegistrationPage';
 import { HunterRegistered } from './components/HunterRegistered';
-import { LaunchCountdown } from './components/LaunchCountdown';
 import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
@@ -72,7 +71,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 50 140 L 44 30 L 50 5 L 56 30 L 50 140 Z"
             fill="transparent"
-            stroke="#3b82f6" 
+            stroke="#06b6d4" 
             strokeWidth="0.8"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
@@ -83,7 +82,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 50 135 L 50 35"
             fill="transparent"
-            stroke="#60a5fa"
+            stroke="#22d3ee"
             strokeWidth="0.5"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -94,7 +93,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 35 140 L 65 140 L 60 145 L 40 145 Z"
             fill="transparent"
-            stroke="#3b82f6"
+            stroke="#06b6d4"
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -105,7 +104,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            <motion.path
             d="M 48 145 L 48 175 L 52 175 L 52 145"
             fill="transparent"
-            stroke="#3b82f6"
+            stroke="#06b6d4"
             strokeWidth="0.8"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -115,7 +114,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            {/* Grip Wrap Detail */}
            <motion.path
             d="M 48 150 L 52 155 M 48 160 L 52 165 M 48 170 L 52 175"
-            stroke="#3b82f6"
+            stroke="#06b6d4"
             strokeWidth="0.5"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -125,7 +124,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            {/* Pommel */}
            <motion.path
             d="M 50 175 L 45 180 L 50 185 L 55 180 Z"
-            stroke="#3b82f6"
+            stroke="#06b6d4"
             fill="transparent"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
@@ -135,7 +134,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
        </svg>
        
        {/* Glow effect behind */}
-       <div className="absolute inset-0 bg-blue-500/10 blur-[60px] rounded-full animate-pulse"></div>
+       <div className="absolute inset-0 bg-cyan-500/10 blur-[60px] rounded-full animate-pulse"></div>
     </div>
     
     <div className="relative">
@@ -143,7 +142,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-serif tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-serif tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]"
       >
         Reforge
       </motion.div>
@@ -151,11 +150,11 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
         initial={{ width: "0%" }}
         animate={{ width: "100%" }}
         transition={{ duration: 1.5, delay: 2 }}
-        className="h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mt-2"
+        className="h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mt-2"
       />
     </div>
     
-    <div className="text-blue-600/70 font-mono text-[10px] md:text-xs mt-6 tracking-[0.3em] animate-pulse">
+    <div className="text-cyan-600/70 font-mono text-[10px] md:text-xs mt-6 tracking-[0.3em] animate-pulse">
       SYSTEM SYNCHRONIZATION...
     </div>
   </div>
@@ -220,10 +219,15 @@ const introMessages = [
 let sessionIntroPlayed = false;
 
 const MainApp = () => {
-  const [showButton, setShowButton] = useState(sessionIntroPlayed);
-  const [loadingState, setLoadingState] = useState<'loading' | 'fading' | 'done'>(sessionIntroPlayed ? 'done' : 'loading');
+  const introVideoRef = useRef<HTMLVideoElement>(null);
+  const loopVideoRef = useRef<HTMLVideoElement>(null);
+  const systemInterfaceRef = useRef<HTMLDivElement>(null);
+  const [loadingState, setLoadingState] = useState<'loading' | 'fading' | 'done'>('loading');
+  const [showTextBox, setShowTextBox] = useState(false);
+  const [showButton, setShowButton] = useState(false);
+  const [introLoaded, setIntroLoaded] = useState(false);
   const [loopLoaded, setLoopLoaded] = useState(false);
-  const [showTextBox, setShowTextBox] = useState(sessionIntroPlayed);
+  const [introFinished, setIntroFinished] = useState(false);
   const [hunterName, setHunterName] = useState<string | null>(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
@@ -232,9 +236,6 @@ const MainApp = () => {
   const [adminPass, setAdminPass] = useState('');
   const [adminError, setAdminError] = useState('');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-
-  const loopVideoRef = useRef<HTMLVideoElement>(null);
-  const systemInterfaceRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -303,32 +304,41 @@ const MainApp = () => {
   }, [loopLoaded, loadingState]);
 
   useEffect(() => {
-    // Wait for loop video to load before fading out loader
-    if (loopLoaded && loadingState === 'loading') {
+    // Wait for both intro (if not played yet) and loop videos to load before fading out loader
+    const isReady = sessionIntroPlayed ? loopLoaded : (introLoaded && loopLoaded);
+    
+    if (isReady && loadingState === 'loading') {
       const timer = setTimeout(() => {
         setLoadingState('fading');
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [loopLoaded, loadingState]);
+  }, [introLoaded, loopLoaded, loadingState]);
 
   useEffect(() => {
     if (loadingState === 'fading') {
       const timer = setTimeout(() => {
         setLoadingState('done');
-        setShowTextBox(true);
-        sessionIntroPlayed = true;
+        if (!sessionIntroPlayed && introVideoRef.current) {
+          introVideoRef.current.play().catch(console.error);
+        } else if (sessionIntroPlayed && loopVideoRef.current) {
+          setIntroFinished(true);
+          setShowTextBox(true);
+          loopVideoRef.current.play().catch(console.error);
+        }
       }, 500);
       return () => clearTimeout(timer);
     }
   }, [loadingState]);
 
-  // Ensure loop video plays
-  useEffect(() => {
-    if (loadingState === 'done' && loopVideoRef.current) {
+  const handleIntroEnded = () => {
+    setIntroFinished(true);
+    setShowTextBox(true);
+    sessionIntroPlayed = true;
+    if (loopVideoRef.current) {
       loopVideoRef.current.play().catch(console.error);
     }
-  }, [loadingState]);
+  };
 
   return (
     <div className="min-h-screen bg-system-bg text-slate-900 font-rajdhani overflow-x-hidden selection:bg-system-neon selection:text-white">
@@ -340,7 +350,7 @@ const MainApp = () => {
           <div className="relative">
             <button 
               onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base flex items-center gap-2 hover:bg-system-neon/20 transition-colors"
+              className="px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] text-sm md:text-base flex items-center gap-2 hover:bg-cyan-500/20 transition-colors"
             >
               <User className="w-4 h-4" />
               <span>Welcome, {hunterName}</span>
@@ -354,14 +364,14 @@ const MainApp = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-system-neon/50 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.2)] overflow-hidden z-50"
+                  className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-cyan-500/50 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] overflow-hidden z-50"
                 >
                   <div className="p-1">
                     <button
                       onClick={handleLogout}
-                      className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-system-neon/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
+                      className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
                     >
-                      <LogOut className="w-4 h-4 text-system-neon group-hover:text-white transition-colors" />
+                      <LogOut className="w-4 h-4 text-cyan-400 group-hover:text-white transition-colors" />
                       <span className="uppercase tracking-wider">Logout</span>
                     </button>
                   </div>
@@ -372,7 +382,7 @@ const MainApp = () => {
         ) : (
           <Link 
             to="/register" 
-            className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest hover:bg-system-neon hover:text-white transition-all rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base"
+            className="px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-slate-900 transition-all rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] text-sm md:text-base"
           >
             Register
           </Link>
@@ -389,12 +399,11 @@ const MainApp = () => {
       <section className="min-h-screen flex flex-row relative z-10 overflow-hidden">
         
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
-          {/* Loop Video (Background) */}
+        <div className="absolute inset-0 z-0 bg-black">
+          {/* Loop Video (Background/Shadow Loading) */}
           <video 
             ref={loopVideoRef}
-            src="https://res.cloudinary.com/dcnqnbvp0/video/upload/q_auto:eco,f_mp4,vc_h264,w_1280,c_limit/v1772384042/loopvideo_1_e9ya07.mp4"
-            poster="https://res.cloudinary.com/dcnqnbvp0/video/upload/q_auto,f_jpg,so_0/v1772384042/loopvideo_1_e9ya07.jpg"
+            src="https://res.cloudinary.com/dt3adevpo/video/upload/v1775466527/venusloop_tubcvl.mp4"
             loop
             muted
             playsInline
@@ -403,37 +412,58 @@ const MainApp = () => {
             onCanPlayThrough={() => setLoopLoaded(true)}
             onLoadedData={() => setLoopLoaded(true)}
             onError={() => {
-              console.warn("Video failed to load, bypassing loader.");
+              console.warn("Loop video failed to load, bypassing loader.");
               setLoopLoaded(true);
             }}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover transition-opacity duration-1000 ${introFinished || sessionIntroPlayed ? 'opacity-100' : 'opacity-0'}`}
           />
+          
+          {/* Intro Video (Plays once) */}
+          {(!sessionIntroPlayed || !introFinished) && (
+            <video 
+              ref={introVideoRef}
+              src="https://res.cloudinary.com/dt3adevpo/video/upload/v1775466507/venusintro_wfngz3.mp4"
+              muted
+              playsInline
+              webkit-playsinline="true"
+              preload="auto"
+              onCanPlayThrough={() => setIntroLoaded(true)}
+              onLoadedData={() => setIntroLoaded(true)}
+              onEnded={handleIntroEnded}
+              onError={() => {
+                console.warn("Intro video failed to load, skipping to loop.");
+                setIntroLoaded(true);
+                handleIntroEnded();
+              }}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${introFinished ? 'opacity-0' : 'opacity-100'}`}
+            />
+          )}
         </div>
 
         {/* Text & CTA Container - Positioned at bottom center on mobile, left on tablet/desktop */}
-        <div className="absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0">
+        <div className={`absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0 transition-opacity duration-1000 ${introFinished || sessionIntroPlayed ? 'opacity-100' : 'opacity-0'}`}>
           <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-2xl lg:max-w-3xl`}>
-            <div className="liquid-glass p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-system-neon/20 shadow-2xl backdrop-blur-xl bg-white/20 md:bg-white/30">
-              <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-600 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
+            <div className="p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)] backdrop-blur-md bg-slate-950/60 md:bg-slate-950/70">
+              <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-400 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
                 <span>Dusk</span>
-                <span className="text-system-neon">//</span>
+                <span className="text-cyan-400">//</span>
                 <span>Accountability AI</span>
               </div>
               
-              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-black mb-8 min-h-[120px] md:min-h-[140px] lg:min-h-[160px] leading-relaxed relative z-10 font-serif text-center md:text-left shadow-white/50 drop-shadow-sm">
+              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-slate-200 mb-8 min-h-[120px] md:min-h-[140px] lg:min-h-[160px] leading-relaxed relative z-10 font-serif text-center md:text-left drop-shadow-md">
                 {showTextBox && (
                   <TypewriterText 
                     text="You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching." 
                     onComplete={() => setShowButton(true)} 
                   />
                 )}
-                <span className="animate-pulse text-system-neon ml-1">_</span>
+                <span className="animate-pulse text-cyan-400 ml-1">_</span>
               </h1>
               
               <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex justify-center md:justify-start`}>
                 <button 
                   onClick={handleAriseClick}
-                  className="w-full md:w-auto px-12 py-4 bg-black hover:bg-slate-900 text-white font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] border border-system-neon/30 flex items-center justify-center"
+                  className="w-full md:w-auto px-12 py-4 bg-slate-900 hover:bg-slate-800 text-cyan-50 font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] border border-cyan-500/30 flex items-center justify-center"
                 >
                   ARISE
                 </button>
@@ -444,7 +474,7 @@ const MainApp = () => {
 
         {/* Scroll Indicator - Adjusted position */}
         <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-1000 delay-500 z-20 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
-          <ChevronDown className="w-6 h-6 text-system-neon/50 animate-bounce" />
+          <ChevronDown className="w-6 h-6 text-cyan-500/50 animate-bounce" />
         </div>
       </section>
 
@@ -452,7 +482,6 @@ const MainApp = () => {
         <Marquee />
       </div>
       <ForgeGuardSection />
-      <LaunchCountdown />
       <InstagramPromo />
       <FAQ />
       
