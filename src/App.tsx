@@ -11,6 +11,7 @@ import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
 import { AnimatePresence, motion } from 'motion/react';
+import { StatsModal } from './components/StatsModal';
 
 // --- Components ---
 
@@ -232,6 +233,7 @@ const MainApp = () => {
   const [adminPass, setAdminPass] = useState('');
   const [adminError, setAdminError] = useState('');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
 
   const loopVideoRef = useRef<HTMLVideoElement>(null);
   const systemInterfaceRef = useRef<HTMLDivElement>(null);
@@ -263,6 +265,11 @@ const MainApp = () => {
   };
 
   const handleAriseClick = () => {
+    setIsStatsModalOpen(true);
+  };
+
+  const handleStatsModalAccept = () => {
+    setIsStatsModalOpen(false);
     if (hunterName) {
       scrollToSystem();
     } else {
@@ -538,6 +545,17 @@ const MainApp = () => {
               </form>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Stats Modal Overlay */}
+      <AnimatePresence>
+        {isStatsModalOpen && (
+          <StatsModal
+            isOpen={isStatsModalOpen}
+            onClose={() => setIsStatsModalOpen(false)}
+            onAccept={handleStatsModalAccept}
+          />
         )}
       </AnimatePresence>
 
