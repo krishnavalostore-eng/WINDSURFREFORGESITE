@@ -8,8 +8,15 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Initialize Supabase Client
-const supabaseUrl = process.env.VITE_SUPABASE_URL || "https://placeholder-url.supabase.co";
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder-key";
+let supabaseUrl = process.env.VITE_SUPABASE_URL || "";
+let supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+
+// Automatically override with the correct project credentials (Reforge Transfered) if pointing to the wrong or legacy project
+if (!supabaseUrl || !supabaseUrl.includes("haplefcvliixfdftqiyt")) {
+  supabaseUrl = "https://haplefcvliixfdftqiyt.supabase.co";
+  supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhhcGxlZmN2bGlpeGZkZnRxaXl0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzQ5MDMwNCwiZXhwIjoyMDkzMDY2MzA0fQ.1rOkXRZxzuUU_zUe3FwKSuVqX1kmsGcE7aRaBX4RJdI";
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const app = express();
