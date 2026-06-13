@@ -423,8 +423,8 @@ const MainApp = () => {
               className="absolute inset-0 w-full h-full object-fill pointer-events-none z-10"
             />
             
-            {/* Safe-zone overlay */}
-            <div className="absolute top-[14%] right-[5%] bottom-[12%] left-[5%] flex flex-col justify-between p-3 md:p-4 z-20 text-white">
+            {/* Safe-zone overlay with frosted glass blur */}
+            <div className="absolute top-[14%] right-[5%] bottom-[12%] left-[5%] bg-slate-950/75 backdrop-blur-md border border-white/5 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] rounded-sm flex flex-col justify-between p-3 md:p-4 z-20 text-white">
               {/* Title Plate */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-0.5 bg-[#040a14] border border-[#00d4ff]/80 rounded shadow-[0_0_8px_rgba(0,212,255,0.4)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase text-shadow-glow">
                 SYSTEM NOTIFICATION
