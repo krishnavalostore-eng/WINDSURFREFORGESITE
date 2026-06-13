@@ -59,7 +59,7 @@ const getRedirectUri = (req: express.Request) => {
 app.get("/api/users/count", async (req, res) => {
   try {
     const { count, error } = await supabase
-      .from("users")
+      .from("players")
       .select("*", { count: "exact", head: true });
     
     if (error) throw error;
@@ -74,7 +74,7 @@ app.get("/api/users/count", async (req, res) => {
 app.get("/api/users", requireAdmin, async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from("users")
+      .from("players")
       .select("*")
       .order("created_at", { ascending: false });
     
@@ -93,7 +93,7 @@ app.post("/api/register", async (req, res) => {
 
     // Check if user already exists
     const { data: existingUser } = await supabase
-      .from("users")
+      .from("players")
       .select("email")
       .eq("email", email)
       .single();
@@ -102,9 +102,40 @@ app.post("/api/register", async (req, res) => {
       return res.status(409).json({ error: "User already registered" });
     }
 
+    // Generate a unique username based on name or email prefix
+    const usernameBase = name.trim().toLowerCase().replace(/[^a-z0-9_]/g, "") || email.split("@")[0];
+    let username = usernameBase;
+    
+    // Check if username is already taken, if so, append a random number
+    const { data: existingUsername } = await supabase
+      .from("players")
+      .select("username")
+      .eq("username", username)
+      .single();
+      
+    if (existingUsername) {
+      username = `${usernameBase}_${Math.floor(Math.random() * 1000)}`;
+    }
+
+    // Insert the new player into public.players
     const { error } = await supabase
-      .from("users")
-      .insert({ email, name, tier });
+      .from("players")
+      .insert({
+        email,
+        name,
+        username,
+        rank: tier || 'E',
+        auth_type: 'local',
+        level: 1,
+        total_xp: 0,
+        gold: 600,
+        keys: 10,
+        streak: 1,
+        hp: 100,
+        max_hp: 100,
+        mp: 50,
+        max_mp: 50
+      });
 
     if (error) throw error;
     res.json({ success: true });
