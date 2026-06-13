@@ -37,7 +37,7 @@ export const InstagramPromo = () => {
             </p>
 
             <a 
-              href="https://www.instagram.com/reforged.system?igsh=b3YyeGV4MTFqOWdz" 
+              href="https://www.instagram.com/reforgeaisystem?igsh=MWVrMzZqOXFoaTVkbQ==" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold uppercase tracking-widest hover:from-purple-500 hover:to-pink-500 transition-all rounded-xl shadow-lg shadow-purple-500/20 group transform hover:-translate-y-1"

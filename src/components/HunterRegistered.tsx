@@ -69,7 +69,7 @@ export const HunterRegistered = () => {
                    </p>
 
                    <a 
-                      href="https://www.instagram.com/reforged.system?igsh=b3YyeGV4MTFqOWdz" 
+                      href="https://www.instagram.com/reforgeaisystem?igsh=MWVrMzZqOXFoaTVkbQ==" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold uppercase tracking-wider hover:from-purple-500 hover:to-pink-500 transition-all rounded-xl shadow-lg shadow-purple-500/20 group w-full justify-center text-sm"
