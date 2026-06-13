@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { Play, X, Activity, Shield, Zap, User, CheckCircle2, Crosshair, Dumbbell, Brain, ChevronDown, Lock, LogOut, Download } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Play, X, Activity, Shield, Zap, User, CheckCircle2, Crosshair, Dumbbell, Brain, ChevronDown, Lock, LogOut } from 'lucide-react';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { AdminPanel } from './components/AdminPanel';
 import { Marquee } from './components/Marquee';
 import { FAQ } from './components/FAQ';
+import { RegistrationPage } from './components/RegistrationPage';
+import { HunterRegistered } from './components/HunterRegistered';
+import { LaunchCountdown } from './components/LaunchCountdown';
 import { InstagramPromo } from './components/InstagramPromo';
 import { PrivacyPolicy } from './components/PrivacyPolicy';
 import { TermsAndConditions } from './components/TermsAndConditions';
-import { RegistrationPage } from './components/RegistrationPage';
-import { HunterRegistered } from './components/HunterRegistered';
-import { RLogo } from './components/RLogo';
-import { HeroIconArc } from './components/HeroIconArc';
-import { HeroLandscape } from './components/HeroLandscape';
-import { MobileMenu } from './components/MobileMenu';
-import { Menu } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
-
-const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.reforge.app&pcampaignid=web_share';
 
 // --- Components ---
 
@@ -78,7 +72,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 50 140 L 44 30 L 50 5 L 56 30 L 50 140 Z"
             fill="transparent"
-            stroke="#06b6d4" 
+            stroke="#3b82f6" 
             strokeWidth="0.8"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
@@ -89,7 +83,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 50 135 L 50 35"
             fill="transparent"
-            stroke="#22d3ee"
+            stroke="#60a5fa"
             strokeWidth="0.5"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -100,7 +94,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
           <motion.path
             d="M 35 140 L 65 140 L 60 145 L 40 145 Z"
             fill="transparent"
-            stroke="#06b6d4"
+            stroke="#3b82f6"
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -111,7 +105,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            <motion.path
             d="M 48 145 L 48 175 L 52 175 L 52 145"
             fill="transparent"
-            stroke="#06b6d4"
+            stroke="#3b82f6"
             strokeWidth="0.8"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -121,7 +115,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            {/* Grip Wrap Detail */}
            <motion.path
             d="M 48 150 L 52 155 M 48 160 L 52 165 M 48 170 L 52 175"
-            stroke="#06b6d4"
+            stroke="#3b82f6"
             strokeWidth="0.5"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -131,7 +125,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
            {/* Pommel */}
            <motion.path
             d="M 50 175 L 45 180 L 50 185 L 55 180 Z"
-            stroke="#06b6d4"
+            stroke="#3b82f6"
             fill="transparent"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
@@ -141,7 +135,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
        </svg>
        
        {/* Glow effect behind */}
-       <div className="absolute inset-0 bg-cyan-500/10 blur-[60px] rounded-full animate-pulse"></div>
+       <div className="absolute inset-0 bg-blue-500/10 blur-[60px] rounded-full animate-pulse"></div>
     </div>
     
     <div className="relative">
@@ -149,7 +143,7 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 1.5 }}
-        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-sans tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+        className="text-4xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-slate-900 to-slate-600 uppercase font-serif tracking-[0.5em] ml-4 drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]"
       >
         Reforge
       </motion.div>
@@ -157,11 +151,11 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
         initial={{ width: "0%" }}
         animate={{ width: "100%" }}
         transition={{ duration: 1.5, delay: 2 }}
-        className="h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent mt-2"
+        className="h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent mt-2"
       />
     </div>
     
-    <div className="text-cyan-600/70 font-mono text-[10px] md:text-xs mt-6 tracking-[0.3em] animate-pulse">
+    <div className="text-blue-600/70 font-mono text-[10px] md:text-xs mt-6 tracking-[0.3em] animate-pulse">
       SYSTEM SYNCHRONIZATION...
     </div>
   </div>
@@ -171,39 +165,39 @@ const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
 
 const ForgeGuardSection = () => {
   return (
-    <section className="py-16 md:py-24 px-4 sm:px-8 container mx-auto relative z-10">
-      <div className="max-w-5xl mx-auto glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden group transition-colors duration-500">
-        {/* Cyan accent glows */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-400/8 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-
+    <section className="py-12 px-8 container mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto liquid-glass p-8 md:p-12 rounded-3xl border border-red-500/30 shadow-[0_0_40px_rgba(239,68,68,0.1)] relative overflow-hidden group hover:border-red-500/50 transition-colors duration-500">
+        {/* Background accent */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 group-hover:bg-red-500/10 transition-colors duration-700"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        
         <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
           <div className="flex-shrink-0 relative">
-            <div className="absolute inset-0 border-2 border-dashed border-cyan-400/30 rounded-full animate-[spin_18s_linear_infinite]"></div>
-            <div className="w-28 h-28 rounded-full border border-cyan-400/50 flex items-center justify-center bg-cyan-400/8 shadow-[0_0_30px_rgba(34,211,238,0.35)] relative z-10 backdrop-blur-sm">
-              <Shield className="w-12 h-12 text-cyan-300" strokeWidth={1.8} />
+            <div className="absolute inset-0 border-2 border-dashed border-red-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+            <div className="w-28 h-28 rounded-full border border-red-500/50 flex items-center justify-center bg-red-500/5 shadow-[0_0_20px_rgba(239,68,68,0.2)] relative z-10 backdrop-blur-sm">
+              <Shield className="w-12 h-12 text-red-500" />
             </div>
           </div>
-
+          
           <div className="flex-1 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-              <div className="h-[1px] w-8 bg-cyan-400/60 hidden md:block"></div>
-              <span className="text-cyan-300 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-bold">Security Protocol Active</span>
+              <div className="h-[1px] w-8 bg-red-500/50 hidden md:block"></div>
+              <span className="text-red-500 font-mono text-xs md:text-sm tracking-[0.3em] uppercase font-bold animate-pulse">Security Protocol Active</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
-              Forge<span className="text-cyan-400 text-cyan-glow">Guard</span>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4 tracking-widest uppercase font-serif">
+              Forge<span className="text-red-500">Guard</span>
             </h2>
-            <p className="text-slate-300 text-base md:text-lg leading-relaxed mb-6 font-light">
-              Introduced by the New Architect, ForgeGuard is an uncompromising anti-cheat mechanism woven directly into the System's core. It ensures absolute fair play by detecting <strong className="text-cyan-300 font-bold">99.9%</strong> of anomalies, unauthorized modifications, and fake quest completions. The System cannot be deceived.
+            <p className="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
+              Introduced by the New Architect, ForgeGuard is an uncompromising anti-cheat mechanism woven directly into the System's core. It ensures absolute fair play by detecting <strong className="text-red-500 font-mono">99.9%</strong> of anomalies, unauthorized modifications, and fake quest completions. The System cannot be deceived.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 sm:gap-6 text-sm text-slate-300">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-6 text-sm font-mono text-slate-500">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-                <span className="uppercase tracking-wider font-semibold">Fair Play Enforced</span>
+                <CheckCircle2 className="w-4 h-4 text-red-500" />
+                <span className="uppercase tracking-wider">Fair Play Enforced</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-                <span className="uppercase tracking-wider font-semibold">Anomaly Detection</span>
+                <CheckCircle2 className="w-4 h-4 text-red-500" />
+                <span className="uppercase tracking-wider">Anomaly Detection</span>
               </div>
             </div>
           </div>
@@ -226,37 +220,23 @@ const introMessages = [
 let sessionIntroPlayed = false;
 
 const MainApp = () => {
-  const systemInterfaceRef = useRef<HTMLDivElement>(null);
-  const [loadingState, setLoadingState] = useState<'loading' | 'fading' | 'done'>('loading');
-  const [showTextBox, setShowTextBox] = useState(false);
-  const [blobReady, setBlobReady] = useState(false);
+  const [showButton, setShowButton] = useState(sessionIntroPlayed);
+  const [loadingState, setLoadingState] = useState<'loading' | 'fading' | 'done'>(sessionIntroPlayed ? 'done' : 'loading');
+  const [loopLoaded, setLoopLoaded] = useState(false);
+  const [showTextBox, setShowTextBox] = useState(sessionIntroPlayed);
+  const [hunterName, setHunterName] = useState<string | null>(null);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [authenticatedAdminPass, setAuthenticatedAdminPass] = useState('');
   const [adminId, setAdminId] = useState('');
   const [adminPass, setAdminPass] = useState('');
   const [adminError, setAdminError] = useState('');
-  const [showIOSModal, setShowIOSModal] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [hunterName, setHunterName] = useState<string | null>(null);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
+  const loopVideoRef = useRef<HTMLVideoElement>(null);
+  const systemInterfaceRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Auto-redirect to Play Store app immediately on page load
-  useEffect(() => {
-    // Only auto-redirect on the main page, not on hash navigation
-    if (location.hash) return;
-
-    if (isIOS()) {
-      setShowIOSModal(true);
-    } else {
-      // Android Intent URL — Chrome on Android intercepts this and opens the Play Store app directly
-      // Falls back to Play Store web URL if the app can't be opened
-      const INTENT_URL = 'intent://details?id=com.reforge.app&referrer=utm_source%3Dwebsite#Intent;scheme=market;action=android.intent.action.VIEW;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(PLAY_STORE_URL) + ';end';
-      window.location.href = INTENT_URL;
-    }
-  }, []); // Run once on mount
 
   useEffect(() => {
     if (location.hash === '#faq') {
@@ -269,26 +249,12 @@ const MainApp = () => {
     }
   }, [location]);
 
-  // Restore hunter name from localStorage on mount
   useEffect(() => {
     const storedName = localStorage.getItem('hunterName');
     if (storedName) {
       setHunterName(storedName);
     }
   }, []);
-
-  const isIOS = () => {
-    const ua = navigator.userAgent || '';
-    return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  };
-
-  const handleDownload = () => {
-    if (isIOS()) {
-      setShowIOSModal(true);
-    } else {
-      window.open(PLAY_STORE_URL, '_blank', 'noopener,noreferrer');
-    }
-  };
 
   const scrollToSystem = () => {
     if (systemInterfaceRef.current) {
@@ -308,6 +274,7 @@ const MainApp = () => {
     localStorage.removeItem('hunterName');
     setHunterName(null);
     setShowProfileDropdown(false);
+    // Optionally navigate to home or refresh if needed, but state update handles UI
   };
 
   const handleAdminLogin = (e: React.FormEvent) => {
@@ -325,187 +292,169 @@ const MainApp = () => {
   };
 
   useEffect(() => {
-    // Safety: force ready after 1.8s even if blob/canvas hasn't signaled
-    const safetyTimer = setTimeout(() => setBlobReady(true), 1800);
+    // Safety fallback: Force load if video takes too long or fails (e.g., slow network, low power mode)
+    const safetyTimer = setTimeout(() => {
+      if (!loopLoaded && loadingState === 'loading') {
+        console.log("Video load timeout reached, forcing system start...");
+        setLoopLoaded(true);
+      }
+    }, 4000);
     return () => clearTimeout(safetyTimer);
-  }, []);
+  }, [loopLoaded, loadingState]);
 
   useEffect(() => {
-    if (blobReady && loadingState === 'loading') {
-      const timer = setTimeout(() => setLoadingState('fading'), 400);
+    // Wait for loop video to load before fading out loader
+    if (loopLoaded && loadingState === 'loading') {
+      const timer = setTimeout(() => {
+        setLoadingState('fading');
+      }, 500);
       return () => clearTimeout(timer);
     }
-  }, [blobReady, loadingState]);
+  }, [loopLoaded, loadingState]);
 
   useEffect(() => {
     if (loadingState === 'fading') {
       const timer = setTimeout(() => {
         setLoadingState('done');
         setShowTextBox(true);
+        sessionIntroPlayed = true;
       }, 500);
       return () => clearTimeout(timer);
     }
   }, [loadingState]);
 
+  // Ensure loop video plays
+  useEffect(() => {
+    if (loadingState === 'done' && loopVideoRef.current) {
+      loopVideoRef.current.play().catch(console.error);
+    }
+  }, [loadingState]);
+
   return (
-    <div className="min-h-screen bg-[#020617] text-slate-100 font-sans overflow-x-hidden selection:bg-cyan-500 selection:text-white">
+    <div className="min-h-screen bg-system-bg text-slate-900 font-rajdhani overflow-x-hidden selection:bg-system-neon selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
-      {/* Top Bar */}
-      <div className="absolute top-0 left-0 right-0 z-40 px-4 sm:px-6 pt-3.5 sm:pt-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <RLogo size={28} />
-          <span className="font-display text-white text-xl sm:text-2xl uppercase tracking-[0.04em] leading-none">
-            REFORGE<span className="text-cyan-400">AI</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Register / Profile Button */}
-          {hunterName ? (
-            <div className="relative">
-              <button 
-                onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                className="px-4 sm:px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] text-xs sm:text-sm flex items-center gap-2 hover:bg-cyan-500/20 transition-colors"
-              >
-                <User className="w-4 h-4" />
-                <span className="hidden sm:inline">Welcome, {hunterName}</span>
-                <span className="sm:hidden">{hunterName}</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showProfileDropdown ? 'rotate-180' : ''}`} />
-              </button>
-              
-              <AnimatePresence>
-                {showProfileDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-cyan-500/50 rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.2)] overflow-hidden z-50"
-                  >
-                    <div className="p-1">
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
-                      >
-                        <LogOut className="w-4 h-4 text-cyan-400 group-hover:text-white transition-colors" />
-                        <span className="uppercase tracking-wider">Logout</span>
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ) : (
-            <Link 
-              to="/register" 
-              className="px-4 sm:px-6 py-2 bg-cyan-500/10 backdrop-blur-md border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-slate-900 transition-all rounded-full shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] text-xs sm:text-sm"
+      {/* Register Button */}
+      <div className="fixed top-6 right-6 z-50">
+        {hunterName ? (
+          <div className="relative">
+            <button 
+              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
+              className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base flex items-center gap-2 hover:bg-system-neon/20 transition-colors"
             >
-              Register
-            </Link>
-          )}
-          {/* Hamburger Menu */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors"
+              <User className="w-4 h-4" />
+              <span>Welcome, {hunterName}</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showProfileDropdown ? 'rotate-180' : ''}`} />
+            </button>
+            
+            <AnimatePresence>
+              {showProfileDropdown && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-system-neon/50 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.2)] overflow-hidden z-50"
+                >
+                  <div className="p-1">
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-system-neon/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
+                    >
+                      <LogOut className="w-4 h-4 text-system-neon group-hover:text-white transition-colors" />
+                      <span className="uppercase tracking-wider">Logout</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ) : (
+          <Link 
+            to="/register" 
+            className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest hover:bg-system-neon hover:text-white transition-all rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base"
           >
-            <Menu className="w-6 h-6" strokeWidth={2} />
-          </button>
-        </div>
+            Register
+          </Link>
+        )}
       </div>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onDownload={handleDownload} />
+      {/* Grid Background Overlay */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.4]" 
+           style={{ backgroundImage: 'linear-gradient(rgba(37,99,235,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+      </div>
+      <div className="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#f1f5f9_100%)]"></div>
 
       {/* Hero Section */}
-      <section
-        className="relative z-10 overflow-hidden flex flex-col items-center px-4 pt-14 sm:pt-16 pb-0 hero-backdrop"
-        style={{ minHeight: '92svh' }}
-      >
-        {/* Soft cyan top glow */}
-        <div className="absolute inset-x-0 top-0 h-[60vh] pointer-events-none"
-             style={{ background: 'radial-gradient(ellipse 90% 55% at 50% 5%, rgba(34,211,238,0.18) 0%, transparent 65%)' }} />
-
-        {/* Hero Content stack */}
-        <div className={`relative z-20 w-full flex flex-col items-center transition-all duration-1000 ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-
-          {/* === Arc + Pill + Headline composition ===
-              The arc is absolutely positioned behind the headline so the
-              ring visually wraps around the text. */}
-          <div className="relative w-full flex flex-col items-center">
-            {/* Arc background — mobile */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 sm:hidden" aria-hidden="true">
-              <HeroIconArc width={340} iconBox={42} />
-            </div>
-            {/* Arc background — sm/md */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 hidden sm:block md:hidden" aria-hidden="true">
-              <HeroIconArc width={460} iconBox={48} />
-            </div>
-            {/* Arc background — desktop */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 z-0 hidden md:block" aria-hidden="true">
-              <HeroIconArc width={580} iconBox={54} />
-            </div>
-
-            {/* Spacer pushes headline into the lower portion of the ring
-                (slight gap from top so headline isn't centered, just dipped in) */}
-            <div className="w-full" style={{ height: 'clamp(130px, 32vw, 230px)' }} />
-
-            {/* Headline — overlaps the lower hemisphere of the ring */}
-            <h1
-              className="relative z-10 font-display text-white text-center leading-[0.92] whitespace-nowrap"
-              style={{ fontSize: 'clamp(2.5rem, 13vw, 6.5rem)', letterSpacing: '0.01em' }}
-            >
-              STOP DREAMING<br />
-              <span className="text-cyan-400 text-cyan-glow">START LEVELING</span>
-            </h1>
-          </div>
-
-          {/* Description */}
-          <p className="relative z-10 mt-4 sm:mt-5 text-slate-300 text-sm sm:text-base text-center max-w-md font-light leading-relaxed px-3">
-            AI-powered workouts, personalized plans, smart nutrition tracking and real-time insights to transform your body and mind.
-          </p>
-
-          {/* CTA Button */}
-          <button
-            onClick={handleDownload}
-            className="relative z-10 mt-5 sm:mt-6 group px-7 py-3.5 rounded-full bg-slate-950/90 hover:bg-slate-900 border border-cyan-400/60 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_30px_rgba(34,211,238,0.25)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_45px_rgba(34,211,238,0.5)] flex items-center gap-3.5 transition-all"
-          >
-            <svg className="w-7 h-7 text-cyan-400 group-hover:text-cyan-300 transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 2.302a1 1 0 010 1.38l-2.302 2.302L15.196 12l2.502-2.492zM5.864 2.658L16.801 9.49l-2.302 2.302L5.864 2.658z"/>
-            </svg>
-            <div className="text-left">
-              <div className="text-white font-extrabold text-sm tracking-[0.12em] leading-tight">DOWNLOAD NOW</div>
-              <div className="text-slate-400 text-[10px] tracking-[0.18em] mt-0.5">AVAILABLE ON PLAY STORE</div>
-            </div>
-          </button>
+      <section className="min-h-screen flex flex-row relative z-10 overflow-hidden">
+        
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          {/* Loop Video (Background) */}
+          <video 
+            ref={loopVideoRef}
+            src="https://res.cloudinary.com/dcnqnbvp0/video/upload/q_auto:eco,f_mp4,vc_h264,w_1280,c_limit/v1772384042/loopvideo_1_e9ya07.mp4"
+            poster="https://res.cloudinary.com/dcnqnbvp0/video/upload/q_auto,f_jpg,so_0/v1772384042/loopvideo_1_e9ya07.jpg"
+            loop
+            muted
+            playsInline
+            webkit-playsinline="true"
+            preload="auto"
+            onCanPlayThrough={() => setLoopLoaded(true)}
+            onLoadedData={() => setLoopLoaded(true)}
+            onError={() => {
+              console.warn("Video failed to load, bypassing loader.");
+              setLoopLoaded(true);
+            }}
+            className="w-full h-full object-cover"
+          />
         </div>
 
-        {/* Landscape image — feathered top edge, properly anchored bottom */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none z-0 select-none">
-          <div
-            className="relative w-full"
-            style={{
-              maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 18%, black 45%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 18%, black 45%)',
-            }}
-          >
-            <HeroLandscape />
+        {/* Text & CTA Container - Positioned at bottom center on mobile, left on tablet/desktop */}
+        <div className="absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0">
+          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-2xl lg:max-w-3xl`}>
+            <div className="liquid-glass p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-system-neon/20 shadow-2xl backdrop-blur-xl bg-white/20 md:bg-white/30">
+              <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-600 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
+                <span>Dusk</span>
+                <span className="text-system-neon">//</span>
+                <span>Accountability AI</span>
+              </div>
+              
+              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-black mb-8 min-h-[120px] md:min-h-[140px] lg:min-h-[160px] leading-relaxed relative z-10 font-serif text-center md:text-left shadow-white/50 drop-shadow-sm">
+                {showTextBox && (
+                  <TypewriterText 
+                    text="You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching." 
+                    onComplete={() => setShowButton(true)} 
+                  />
+                )}
+                <span className="animate-pulse text-system-neon ml-1">_</span>
+              </h1>
+              
+              <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex justify-center md:justify-start`}>
+                <button 
+                  onClick={handleAriseClick}
+                  className="w-full md:w-auto px-12 py-4 bg-black hover:bg-slate-900 text-white font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] border border-system-neon/30 flex items-center justify-center"
+                >
+                  ARISE
+                </button>
+              </div>
+            </div>
           </div>
-          {/* Side vignette to blend image edges into background */}
-          <div className="absolute inset-0 pointer-events-none"
-               style={{ background: 'radial-gradient(ellipse 85% 60% at 50% 100%, transparent 50%, rgba(2,6,23,0.6) 85%, rgba(2,6,23,0.95) 100%)' }} />
+        </div>
+
+        {/* Scroll Indicator - Adjusted position */}
+        <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center transition-all duration-1000 delay-500 z-20 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
+          <ChevronDown className="w-6 h-6 text-system-neon/50 animate-bounce" />
         </div>
       </section>
 
-      <div ref={systemInterfaceRef} id="system">
+      <div ref={systemInterfaceRef}>
         <Marquee />
       </div>
-      <div id="forgeguard">
-        <ForgeGuardSection />
-      </div>
+      <ForgeGuardSection />
+      <LaunchCountdown />
       <InstagramPromo />
-      <div id="faq">
-        <FAQ />
-      </div>
+      <FAQ />
       
       <footer className="py-8 text-center text-slate-500 font-mono text-sm border-t border-system-neon/20 relative z-10 flex flex-col items-center gap-4">
         <div className="flex flex-wrap justify-center gap-6 md:gap-12 mb-2">
@@ -611,61 +560,6 @@ const MainApp = () => {
               </button>
             </div>
             <AdminPanel adminPass={authenticatedAdminPass} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* iOS Not Available Modal */}
-      <AnimatePresence>
-        {showIOSModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[300] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
-            onClick={() => setShowIOSModal(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.85, opacity: 0, y: 30 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.85, opacity: 0, y: 30 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="bg-slate-900 border border-cyan-500/30 p-8 rounded-2xl max-w-sm w-full relative shadow-[0_0_60px_rgba(6,182,212,0.15)] text-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button 
-                onClick={() => setShowIOSModal(false)}
-                className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Apple Icon */}
-              <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-700 border border-slate-600/50 flex items-center justify-center shadow-lg">
-                <svg className="w-8 h-8 text-slate-300" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                </svg>
-              </div>
-
-              <h3 className="text-xl font-bold text-white tracking-wider uppercase mb-2 font-sans">
-                Coming Soon to iOS
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                Reforge is currently available on <span className="text-emerald-400 font-semibold">Android</span> only. We're working on bringing it to iOS — stay tuned!
-              </p>
-
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={() => setShowIOSModal(false)}
-                  className="w-full py-3 bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-bold uppercase tracking-widest hover:bg-cyan-500 hover:text-slate-900 transition-all text-sm rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]"
-                >
-                  Got It
-                </button>
-                <p className="text-[10px] text-slate-600 font-mono tracking-wider">
-                  ANDROID • GOOGLE PLAY • AVAILABLE NOW
-                </p>
-              </div>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

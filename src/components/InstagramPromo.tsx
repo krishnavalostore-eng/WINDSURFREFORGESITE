@@ -28,7 +28,7 @@ export const InstagramPromo = () => {
 
           {/* Text Section */}
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-sans">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-serif">
               Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-purple-500">Hunter Community</span>
             </h2>
             

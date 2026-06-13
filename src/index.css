@@ -1,64 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-system-bg: #020617;
-  --color-system-neon: #22d3ee;
-  --font-rajdhani: 'Space Grotesk', system-ui, sans-serif;
-  --font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --color-system-bg: #f8fafc;
+  --color-system-neon: #2563eb; /* Deep vibrant blue for light mode */
+  --font-rajdhani: 'Rajdhani', sans-serif;
 }
 
-html, body {
-  font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #020617;
-  color: #e2e8f0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+body {
+  font-family: var(--font-rajdhani);
+  background-color: var(--color-system-bg);
+  color: #0f172a; /* slate-900 */
 }
-
-/* Hero premium backdrop */
-.hero-backdrop {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(8, 145, 178, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 50% 100%, rgba(6, 182, 212, 0.10) 0%, transparent 55%),
-    linear-gradient(180deg, #051728 0%, #030d18 50%, #020617 100%);
-}
-
-/* Glass pill nav */
-.glass-pill {
-  background: rgba(8, 22, 38, 0.55);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid rgba(103, 232, 249, 0.22);
-  box-shadow:
-    0 8px 32px rgba(6, 182, 212, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.glass-card {
-  background: rgba(8, 22, 38, 0.62);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(103, 232, 249, 0.24);
-  box-shadow:
-    0 16px 48px rgba(6, 182, 212, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.font-display {
-  font-family: 'Bebas Neue', system-ui, sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.005em;
-}
-
-.text-cyan-glow {
-  text-shadow: 0 4px 30px rgba(34, 211, 238, 0.35), 0 0 60px rgba(34, 211, 238, 0.15);
-}
-
-@keyframes phone-float {
-  0%, 100% { transform: perspective(1400px) rotateZ(-8deg) rotateY(6deg) translateY(0); }
-  50%     { transform: perspective(1400px) rotateZ(-8deg) rotateY(6deg) translateY(-14px); }
-}
-.animate-phone-float { animation: phone-float 7s ease-in-out infinite; }
 
 /* Glassmorphism */
 .glass-panel {

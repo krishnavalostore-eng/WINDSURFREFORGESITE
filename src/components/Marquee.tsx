@@ -50,7 +50,7 @@ export const Marquee = () => {
           <span className="text-blue-400 font-mono text-xs tracking-[0.4em] uppercase font-semibold">Visual Database</span>
           <div className="h-[1px] w-12 bg-blue-500/50"></div>
         </div>
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-white tracking-widest uppercase font-sans drop-shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+        <h2 className="text-4xl md:text-5xl font-bold text-center text-white tracking-widest uppercase font-serif drop-shadow-[0_0_15px_rgba(37,99,235,0.4)]">
           System <span className="text-blue-500">Interface</span>
         </h2>
       </div>

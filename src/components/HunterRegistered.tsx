@@ -35,7 +35,7 @@ export const HunterRegistered = () => {
                 </div>
              </div>
 
-             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest uppercase font-sans">
+             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 tracking-widest uppercase font-serif">
                 Hunter <span className="text-system-neon">Registered</span>
              </h1>
              
@@ -60,7 +60,7 @@ export const HunterRegistered = () => {
                       <Instagram className="w-6 h-6 text-white" />
                    </div>
                    
-                   <h2 className="text-lg font-bold text-white mb-2 font-sans">
+                   <h2 className="text-lg font-bold text-white mb-2 font-serif">
                       Join the <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-red-500 to-purple-500">Community</span>
                    </h2>
                    

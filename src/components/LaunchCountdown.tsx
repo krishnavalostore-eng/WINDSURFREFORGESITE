@@ -40,7 +40,7 @@ export const LaunchCountdown = () => {
             <Zap className="w-4 h-4" />
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 font-sans tracking-wider uppercase drop-shadow-[0_0_10px_rgba(37,99,235,0.5)]">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 font-serif tracking-wider uppercase drop-shadow-[0_0_10px_rgba(37,99,235,0.5)]">
             Global <span className="text-system-neon">Launch</span>
           </h2>
           
