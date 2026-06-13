@@ -37,6 +37,12 @@ const TypewriterText = ({ text, onComplete }: { text: string, onComplete: () => 
     const timer = setInterval(() => {
       setDisplayed(text.slice(0, i));
       i++;
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        const char = text.charAt(i - 1);
+        if (char && char !== ' ') {
+          navigator.vibrate(10);
+        }
+      }
       if (i > text.length) {
         clearInterval(timer);
         onCompleteRef.current();
@@ -395,52 +401,60 @@ const MainApp = () => {
       {/* Hero Section */}
       <section className="min-h-screen flex flex-row relative z-10 overflow-hidden">
         
-        {/* Video Background */}
-        <div className="absolute inset-0 z-0">
-          {/* Loop Video (Background) */}
-          <video 
-            ref={loopVideoRef}
-            src="https://res.cloudinary.com/dt3adevpo/video/upload/v1775466527/venusloop_tubcvl.mp4"
-            poster="https://res.cloudinary.com/dt3adevpo/video/upload/so_0/v1775466527/venusloop_tubcvl.jpg"
-            loop
-            muted
-            playsInline
-            webkit-playsinline="true"
-            preload="auto"
-            onCanPlayThrough={() => setLoopLoaded(true)}
-            onLoadedData={() => setLoopLoaded(true)}
-            onError={() => {
-              console.warn("Video failed to load, bypassing loader.");
-              setLoopLoaded(true);
+        {/* Blurred Status Frame Background */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img 
+            src="/status-frame.jpg" 
+            alt="Status Background" 
+            onLoad={() => setLoopLoaded(true)}
+            className="w-full h-full object-cover filter blur-xl scale-110 brightness-[0.25]"
+          />
+          {/* Grid Background Overlay */}
+          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+          <div 
+            className="absolute inset-0 pointer-events-none opacity-[0.03]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(0, 212, 255, 0.5) 1px, transparent 1px)',
+              backgroundSize: '100% 4px',
             }}
-            className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Text & CTA Container - Positioned at bottom center on mobile, left on tablet/desktop */}
-        <div className="absolute inset-0 flex flex-col justify-end md:justify-center lg:justify-center items-center md:items-start lg:items-start p-4 md:p-12 lg:p-24 z-10 pointer-events-none pb-24 md:pb-0">
-          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-2xl lg:max-w-3xl`}>
-            <div className="liquid-glass p-6 md:p-8 lg:p-12 rounded-3xl w-full border border-system-neon/20 shadow-2xl backdrop-blur-xl bg-white/20 md:bg-white/30">
-              <div className="text-[10px] md:text-xs lg:text-sm tracking-[0.3em] text-slate-600 font-mono mb-4 uppercase flex items-center gap-4 justify-center md:justify-start">
-                <span>Dusk</span>
-                <span className="text-system-neon">//</span>
-                <span>Accountability AI</span>
+        {/* Centered System Status Frame Card */}
+        <div className="absolute inset-0 flex items-center justify-center p-4 z-10 pointer-events-none">
+          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-[420px] md:max-w-[520px] aspect-[2400/1792] relative overflow-hidden select-none font-mono`}>
+            {/* Status Frame Image (Unblurred) */}
+            <img 
+              src="/status-frame.jpg" 
+              alt="System Notification Frame" 
+              className="absolute inset-0 w-full h-full object-fill pointer-events-none z-10"
+            />
+            
+            {/* Safe-zone overlay */}
+            <div className="absolute top-[14%] right-[5%] bottom-[12%] left-[5%] flex flex-col justify-between p-3 md:p-4 z-20 text-white">
+              {/* Title Plate */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-0.5 bg-[#040a14] border border-[#00d4ff]/80 rounded shadow-[0_0_8px_rgba(0,212,255,0.4)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase text-shadow-glow">
+                SYSTEM NOTIFICATION
               </div>
-              
-              <h1 className="text-base md:text-xl lg:text-3xl font-medium text-black mb-8 min-h-[120px] md:min-h-[140px] lg:min-h-[160px] leading-relaxed relative z-10 font-serif text-center md:text-left shadow-white/50 drop-shadow-sm">
-                {showTextBox && (
-                  <TypewriterText 
-                    text="You've been detected. The System has chosen you. Before we proceed — understand this: every action, every failure, every victory will be recorded. I am the New Architect. I will be watching." 
-                    onComplete={() => setShowButton(true)} 
-                  />
-                )}
-                <span className="animate-pulse text-system-neon ml-1">_</span>
-              </h1>
-              
-              <div className={`transition-all duration-1000 relative z-10 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex justify-center md:justify-start`}>
+
+              {/* Message Block */}
+              <div className="flex-1 flex flex-col justify-center items-center text-center px-2 md:px-4 mt-2">
+                <h1 className="text-[11px] sm:text-[12px] md:text-[14px] font-bold text-[#00d4ff] tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full drop-shadow-[0_0_6px_rgba(0,212,255,0.4)]">
+                  {showTextBox && (
+                    <TypewriterText 
+                      text={"SYSTEM ACKNOWLEDGED.\n\nYOU HAVE BEEN DETECTED BY THE SYSTEM.\nWE ARE HERE TO FORGE YOUR PATH.\n\nDO NOT FALTER."} 
+                      onComplete={() => setShowButton(true)} 
+                    />
+                  )}
+                  <span className="animate-pulse text-[#00d4ff] ml-0.5 font-bold">_</span>
+                </h1>
+              </div>
+
+              {/* White ARISE Button */}
+              <div className={`transition-all duration-1000 relative z-30 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center justify-center pb-2`}>
                 <button 
                   onClick={handleAriseClick}
-                  className="w-full md:w-auto px-12 py-4 bg-black hover:bg-slate-900 text-white font-bold text-sm md:text-base lg:text-lg tracking-[0.3em] uppercase transition-all rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)] border border-system-neon/30 flex items-center justify-center"
+                  className="px-12 py-2.5 bg-white text-black hover:bg-slate-200 hover:text-black font-black font-mono tracking-[0.4em] text-xs md:text-sm transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.7)] rounded border border-white"
                 >
                   ARISE
                 </button>
