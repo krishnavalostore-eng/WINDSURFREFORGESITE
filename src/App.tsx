@@ -269,11 +269,7 @@ const MainApp = () => {
   };
 
   const handleAriseClick = () => {
-    if (hunterName) {
-      scrollToSystem();
-    } else {
-      navigate('/register');
-    }
+    navigate('/register');
   };
 
   const handleLogout = () => {
@@ -398,7 +394,7 @@ const MainApp = () => {
               <h1 className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[19px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                 {showTextBox && (
                   <TypewriterText 
-                    text={"[SYSTEM NOTIFICATION]\n\nYOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
+                    text={"YOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
                     onComplete={() => setShowButton(true)} 
                   />
                 )}
