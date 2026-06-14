@@ -395,10 +395,10 @@ const MainApp = () => {
       <section className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden bg-[#020617]">
         
         {/* Centered System Status Screen Container */}
-        <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full h-full md:h-[90vh] md:max-h-[850px] md:aspect-[9/16] md:w-auto fixed inset-0 md:relative md:inset-auto overflow-hidden select-none font-mono shadow-2xl md:rounded-3xl md:border md:border-white/10`}>
+        <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full h-[100dvh] md:h-[90vh] md:max-h-[850px] md:aspect-[9/16] md:w-auto relative overflow-hidden select-none font-mono shadow-2xl md:rounded-3xl md:border md:border-white/10`}>
           {/* Status Frame Image (Unblurred & Sharp) */}
           <img 
-            src="/elongated-screen.jpg" 
+            src="/elongated-screen.png" 
             alt="System Status Screen" 
             onLoad={() => setLoopLoaded(true)}
             className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
