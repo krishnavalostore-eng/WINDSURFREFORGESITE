@@ -397,7 +397,7 @@ const MainApp = () => {
         {/* Blurred Status Frame Background */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <img 
-            src="/status-frame.jpg" 
+            src="/elongated-screen.jpg" 
             alt="Status Background" 
             onLoad={() => setLoopLoaded(true)}
             className="w-full h-full object-cover filter blur-xl scale-110 brightness-[0.25]"
@@ -415,27 +415,27 @@ const MainApp = () => {
 
         {/* Centered System Status Frame Card */}
         <div className="absolute inset-0 flex items-center justify-center p-4 z-10 pointer-events-none">
-          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full max-w-[420px] md:max-w-[520px] aspect-[2400/1792] relative overflow-hidden select-none font-mono`}>
+          <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full h-full md:h-auto fixed inset-0 md:relative md:max-w-[380px] md:aspect-[9/16] overflow-hidden select-none font-mono shadow-2xl`}>
             {/* Status Frame Image (Unblurred) */}
             <img 
-              src="/status-frame.jpg" 
+              src="/elongated-screen.jpg" 
               alt="System Notification Frame" 
-              className="absolute inset-0 w-full h-full object-fill pointer-events-none z-10"
+              className="absolute inset-0 w-full h-full object-cover md:object-fill pointer-events-none z-10"
             />
             
             {/* Safe-zone overlay with frosted glass blur */}
-            <div className="absolute top-[14%] right-[5%] bottom-[12%] left-[5%] bg-slate-950/75 backdrop-blur-md border border-white/5 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] rounded-sm flex flex-col justify-between p-3 md:p-4 z-20 text-white">
+            <div className="absolute top-[12%] right-[6%] bottom-[12%] left-[6%] bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-lg flex flex-col justify-between p-4 md:p-6 z-20 text-white shadow-[inset_0_0_30px_rgba(0,0,0,0.95)]">
               {/* Title Plate */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-0.5 bg-[#040a14] border border-[#00d4ff]/80 rounded shadow-[0_0_8px_rgba(0,212,255,0.4)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase text-shadow-glow">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-1 bg-[#040a14] border border-white/20 rounded shadow-[0_0_10px_rgba(255,255,255,0.15)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase font-orbitron">
                 SYSTEM NOTIFICATION
               </div>
 
               {/* Message Block */}
-              <div className="flex-1 flex flex-col justify-center items-center text-center px-2 md:px-4 mt-2">
-                <h1 className="text-[11px] sm:text-[12px] md:text-[14px] font-bold text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
+              <div className="flex-1 flex flex-col justify-center items-center text-center px-1 md:px-2 mt-4">
+                <h1 className="text-[10px] sm:text-[11px] md:text-[12px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
                   {showTextBox && (
                     <TypewriterText 
-                      text={"SYSTEM ACKNOWLEDGED.\n\nYOU HAVE BEEN DETECTED BY THE SYSTEM.\nWE ARE HERE TO FORGE YOUR PATH.\n\nDO NOT FALTER."} 
+                      text={"[SYSTEM NOTIFICATION]\n\nYOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
                       onComplete={() => setShowButton(true)} 
                     />
                   )}
@@ -447,7 +447,7 @@ const MainApp = () => {
               <div className={`transition-all duration-1000 relative z-30 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center justify-center pb-2`}>
                 <button 
                   onClick={handleAriseClick}
-                  className="px-12 py-2.5 bg-white text-black hover:bg-slate-200 hover:text-black font-black font-mono tracking-[0.4em] text-xs md:text-sm transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.4)] hover:shadow-[0_0_25px_rgba(255,255,255,0.7)] rounded border border-white"
+                  className="px-14 py-3 bg-white text-black hover:bg-slate-200 hover:text-black font-black font-orbitron tracking-[0.4em] text-xs md:text-sm transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)] rounded border border-white"
                 >
                   ARISE
                 </button>
