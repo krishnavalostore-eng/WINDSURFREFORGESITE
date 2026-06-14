@@ -365,35 +365,59 @@ const MainApp = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30 pointer-events-none z-10" />
           
           {/* Safe-zone overlay with semi-transparent frosted glass blur */}
-          <div className="absolute top-[12%] right-[6%] bottom-[12%] left-[6%] bg-slate-950/45 backdrop-blur-[8px] border border-white/10 rounded-2xl flex flex-col justify-between p-5 md:p-6 z-20 text-white shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
-            {/* Title Plate */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-1.5 bg-[#040a14] border border-white/20 rounded-md shadow-[0_0_15px_rgba(255,255,255,0.15)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase font-orbitron">
-              SYSTEM NOTIFICATION
-            </div>
+          <motion.div 
+            initial={{ scaleX: 0, scaleY: 0.003, opacity: 0.8 }}
+            animate={{ 
+              scaleX: 1, 
+              scaleY: [0.003, 0.003, 1], 
+              opacity: 1 
+            }}
+            transition={{ 
+              duration: 1.2, 
+              times: [0, 0.4, 1], 
+              ease: "easeOut" 
+            }}
+            style={{ originX: 0.5, originY: 0.5 }}
+            onAnimationComplete={() => {
+              setShowTextBox(true);
+            }}
+            className="absolute top-[12%] right-[6%] bottom-[12%] left-[6%] bg-slate-950/45 backdrop-blur-[8px] border border-white/10 rounded-2xl flex flex-col justify-between p-5 md:p-6 z-20 text-white shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]"
+          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={showTextBox ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full h-full flex flex-col justify-between"
+            >
+              {/* Title Plate */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 py-1.5 bg-[#040a14] border border-white/20 rounded-md shadow-[0_0_15px_rgba(255,255,255,0.15)] text-[9px] md:text-[10px] font-black tracking-[0.3em] text-white uppercase font-orbitron text-center whitespace-nowrap">
+                SYSTEM NOTIFICATION
+              </div>
 
-            {/* Message Block */}
-            <div className="flex-1 flex flex-col justify-center items-center text-center px-1 md:px-2 mt-6">
-              <h1 className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[19px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-                {showTextBox && (
-                  <TypewriterText 
-                    text={"[SYSTEM NOTIFICATION]\n\nYOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
-                    onComplete={() => setShowButton(true)} 
-                  />
-                )}
-                <span className="animate-pulse text-white ml-0.5 font-bold">_</span>
-              </h1>
-            </div>
+              {/* Message Block */}
+              <div className="flex-1 flex flex-col justify-center items-center text-center px-1 md:px-2 mt-6">
+                <h1 className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[19px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+                  {showTextBox && (
+                    <TypewriterText 
+                      text={"[SYSTEM NOTIFICATION]\n\nYOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
+                      onComplete={() => setShowButton(true)} 
+                    />
+                  )}
+                  <span className="animate-pulse text-white ml-0.5 font-bold">_</span>
+                </h1>
+              </div>
 
-            {/* White ARISE Button */}
-            <div className={`transition-all duration-1000 relative z-30 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center justify-center pb-2`}>
-              <button 
-                onClick={handleAriseClick}
-                className="px-14 py-3 bg-white text-black hover:bg-slate-200 hover:text-black font-black font-orbitron tracking-[0.4em] text-xs md:text-sm transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)] rounded-lg border border-white"
-              >
-                ARISE
-              </button>
-            </div>
-          </div>
+              {/* White ARISE Button */}
+              <div className={`transition-all duration-1000 relative z-30 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'} flex flex-col items-center justify-center pb-2`}>
+                <button 
+                  onClick={handleAriseClick}
+                  className="px-14 py-3 bg-white text-black hover:bg-slate-200 hover:text-black font-black font-orbitron tracking-[0.4em] text-xs md:text-sm transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:shadow-[0_0_25px_rgba(255,255,255,0.8)] rounded-lg border border-white"
+                >
+                  ARISE
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Scroll Indicator */}

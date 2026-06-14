@@ -3,7 +3,7 @@ import { Timer, Calendar, Zap } from 'lucide-react';
 
 export const LaunchCountdown = () => {
   const calculateTimeLeft = () => {
-    const launchDate = new Date('2026-03-23T12:30:00');
+    const launchDate = new Date('2026-06-23T12:30:00');
     const now = new Date();
     const difference = launchDate.getTime() - now.getTime();
 
@@ -45,7 +45,7 @@ export const LaunchCountdown = () => {
           </h2>
           
           <p className="text-slate-400 text-lg md:text-xl mb-16 max-w-2xl mx-auto leading-relaxed">
-            The System is preparing to go online. All Hunters must be ready. The gates will open on <span className="text-white font-bold">March 23rd, 2026</span>.
+            The System is preparing to go online. All Hunters must be ready. The gates will open on <span className="text-white font-bold">June 23rd, 2026</span>.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-8 mb-8 md:mb-12">
@@ -85,7 +85,7 @@ export const LaunchCountdown = () => {
           
           <div className="inline-flex items-center gap-3 px-8 py-4 bg-system-neon/10 border border-system-neon/50 rounded-full text-system-neon font-mono text-sm md:text-base tracking-widest uppercase shadow-[0_0_20px_rgba(37,99,235,0.2)]">
             <Calendar className="w-5 h-5" />
-            <span>23.03.2026 // 12:30 PM</span>
+            <span>23.06.2026 // 12:30 PM</span>
           </div>
        </div>
     </section>
