@@ -340,50 +340,7 @@ const MainApp = () => {
     <div className="min-h-screen bg-system-bg text-slate-900 font-rajdhani overflow-x-hidden selection:bg-system-neon selection:text-white">
       {loadingState !== 'done' && <LoadingScreen isFading={loadingState === 'fading'} />}
 
-      {/* Register Button */}
-      <div className="fixed top-6 right-6 z-50">
-        {hunterName ? (
-          <div className="relative">
-            <button 
-              onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-              className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base flex items-center gap-2 hover:bg-system-neon/20 transition-colors"
-            >
-              <User className="w-4 h-4" />
-              <span>Welcome, {hunterName}</span>
-              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showProfileDropdown ? 'rotate-180' : ''}`} />
-            </button>
-            
-            <AnimatePresence>
-              {showProfileDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute right-0 mt-2 w-48 bg-slate-900/90 backdrop-blur-xl border border-system-neon/50 rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.2)] overflow-hidden z-50"
-                >
-                  <div className="p-1">
-                    <button
-                      onClick={handleLogout}
-                      className="w-full px-4 py-3 text-left text-sm font-mono text-slate-300 hover:bg-system-neon/20 hover:text-white transition-colors flex items-center gap-3 rounded-lg group"
-                    >
-                      <LogOut className="w-4 h-4 text-system-neon group-hover:text-white transition-colors" />
-                      <span className="uppercase tracking-wider">Logout</span>
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ) : (
-          <Link 
-            to="/register" 
-            className="px-6 py-2 bg-system-neon/10 backdrop-blur-md border border-system-neon text-system-neon font-bold uppercase tracking-widest hover:bg-system-neon hover:text-white transition-all rounded-full shadow-[0_0_15px_rgba(37,99,235,0.3)] text-sm md:text-base"
-          >
-            Register
-          </Link>
-        )}
-      </div>
+
 
       {/* Grid Background Overlay */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.4]" 
@@ -395,7 +352,7 @@ const MainApp = () => {
       <section className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden bg-[#020617]">
         
         {/* Centered System Status Screen Container */}
-        <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full h-[100dvh] md:h-[90vh] md:max-h-[850px] md:aspect-[9/16] md:w-auto relative overflow-hidden select-none font-mono shadow-2xl md:rounded-3xl md:border md:border-white/10`}>
+        <div className={`transition-all duration-1000 transform ${showTextBox ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'} pointer-events-auto w-full h-screen md:h-[90vh] md:max-h-[850px] md:aspect-[9/16] md:w-auto relative overflow-hidden select-none font-mono shadow-2xl md:rounded-3xl md:border md:border-white/10`}>
           {/* Status Frame Image (Unblurred & Sharp) */}
           <img 
             src="/elongated-screen.png" 
@@ -416,7 +373,7 @@ const MainApp = () => {
 
             {/* Message Block */}
             <div className="flex-1 flex flex-col justify-center items-center text-center px-1 md:px-2 mt-6">
-              <h1 className="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[13px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+              <h1 className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[19px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                 {showTextBox && (
                   <TypewriterText 
                     text={"[SYSTEM NOTIFICATION]\n\nYOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
