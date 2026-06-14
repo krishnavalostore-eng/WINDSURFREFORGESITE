@@ -391,7 +391,7 @@ const MainApp = () => {
 
             {/* Message Block */}
             <div className="flex-1 flex flex-col justify-center items-center text-center px-1 md:px-2 mt-6">
-              <h1 className="text-[13px] sm:text-[15px] md:text-[17px] lg:text-[19px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+              <h1 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                 {showTextBox && (
                   <TypewriterText 
                     text={"YOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
