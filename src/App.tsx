@@ -23,26 +23,82 @@ const GoogleIcon = () => (
   </svg>
 );
 
+interface TypewriterRun {
+  text: string;
+  isHighlighted: boolean;
+}
+
+const parseRuns = (rawText: string): TypewriterRun[] => {
+  const runs: TypewriterRun[] = [];
+  let currentText = '';
+  let isHighlighted = false;
+  let i = 0;
+  
+  while (i < rawText.length) {
+    if (rawText.startsWith('<hl>', i)) {
+      if (currentText) {
+        runs.push({ text: currentText, isHighlighted });
+        currentText = '';
+      }
+      isHighlighted = true;
+      i += 4;
+    } else if (rawText.startsWith('</hl>', i)) {
+      if (currentText) {
+        runs.push({ text: currentText, isHighlighted });
+        currentText = '';
+      }
+      isHighlighted = false;
+      i += 5;
+    } else {
+      currentText += rawText[i];
+      i++;
+    }
+  }
+  if (currentText) {
+    runs.push({ text: currentText, isHighlighted });
+  }
+  return runs;
+};
+
 const TypewriterText = ({ text, onComplete }: { text: string, onComplete: () => void }) => {
-  const [displayed, setDisplayed] = useState('');
+  const [visibleCount, setVisibleCount] = useState(0);
+  const parsedRuns = useRef<TypewriterRun[]>([]);
+  const totalLength = useRef(0);
   const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
   }, [onComplete]);
+
+  useEffect(() => {
+    const runs = parseRuns(text);
+    parsedRuns.current = runs;
+    totalLength.current = runs.reduce((sum, run) => sum + run.text.length, 0);
+    setVisibleCount(0);
+  }, [text]);
   
   useEffect(() => {
+    if (totalLength.current === 0) return;
+    
     let i = 0;
     const timer = setInterval(() => {
-      setDisplayed(text.slice(0, i));
+      setVisibleCount(i);
       i++;
       if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        const char = text.charAt(i - 1);
-        if (char && char !== ' ') {
+        let charIndex = i - 1;
+        let char = '';
+        for (const run of parsedRuns.current) {
+          if (charIndex < run.text.length) {
+            char = run.text.charAt(charIndex);
+            break;
+          }
+          charIndex -= run.text.length;
+        }
+        if (char && char !== ' ' && char !== '\n') {
           navigator.vibrate(10);
         }
       }
-      if (i > text.length) {
+      if (i > totalLength.current) {
         clearInterval(timer);
         onCompleteRef.current();
       }
@@ -51,7 +107,29 @@ const TypewriterText = ({ text, onComplete }: { text: string, onComplete: () => 
     return () => clearInterval(timer);
   }, [text]);
 
-  return <span>{displayed}</span>;
+  const renderVisibleRuns = () => {
+    let charsLeft = visibleCount;
+    return parsedRuns.current.map((run, idx) => {
+      if (charsLeft <= 0) return null;
+      const sliceLen = Math.min(run.text.length, charsLeft);
+      const visibleText = run.text.slice(0, sliceLen);
+      charsLeft -= sliceLen;
+      
+      if (run.isHighlighted) {
+        return (
+          <span 
+            key={idx} 
+            className="text-cyan-300 font-extrabold drop-shadow-[0_0_12px_rgba(34,211,238,0.95)] animate-pulse"
+          >
+            {visibleText}
+          </span>
+        );
+      }
+      return <span key={idx}>{visibleText}</span>;
+    });
+  };
+
+  return <>{renderVisibleRuns()}</>;
 };
 
 const LoadingScreen = ({ isFading }: { isFading: boolean }) => (
@@ -394,7 +472,7 @@ const MainApp = () => {
               <h1 className="text-[16px] sm:text-[18px] md:text-[20px] lg:text-[22px] font-black text-white tracking-[0.08em] leading-relaxed uppercase whitespace-pre-wrap max-w-full font-orbitron drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
                 {showTextBox && (
                   <TypewriterText 
-                    text={"YOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: JUNE 23.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
+                    text={"YOUR WEAKNESS ENDS TODAY.\nSYSTEM AWAKENING: <hl>JUNE 23</hl>.\n\nPREPARE TO EQUIP THE TERMINAL.\nREFORGE YOUR POTENTIAL AND AWAKEN AS A HERO.\n\nCHOOSE ASCENSION.\n\nARISE."} 
                     onComplete={() => setShowButton(true)} 
                   />
                 )}
